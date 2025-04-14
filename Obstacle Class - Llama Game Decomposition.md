@@ -4,23 +4,23 @@ kanban-plugin: board
 
 ---
 
-## `__init__(self)`
+## Setup Obstacle (`__init__`)
 
-- [ ] Call parent constructor (`super().__init__()`)
-- [ ] Load obstacle image(s) (cactus, etc.) using `pygame.image.load().convert_alpha()`
-- [ ] (Optional) Randomly select which obstacle image to use
-- [ ] Set `self.image` to the chosen image
-- [ ] Get `self.rect` from the image (`self.image.get_rect()`)
-- [ ] Define initial position (off-screen right, correct height) (`self.rect.bottomleft = (SCREEN_WIDTH, GROUND_HEIGHT)`)
-- [ ] Set movement speed (`self.speed = OBSTACLE_SPEED`) - *Consider passing speed from Game class if it changes*
-- [ ] Create collision mask (`self.mask = pygame.mask.from_surface(self.image)`)
+- [ ] Initialize the base Sprite features.
+- [ ] Load the obstacle's visual appearance (image or shape).
+- [ ] (Optional) Randomly choose which type of obstacle appearance to use.
+- [ ] Set the obstacle's visual appearance.
+- [ ] Get the rectangle representing the obstacle's position and size.
+- [ ] Set the obstacle's starting position (off-screen to the right).
+- [ ] Store the speed at which the obstacle should move.
+- [ ] Create a precise outline (mask) for collision detection.
 
 
-## `update(self)`
+## Update Obstacle State (`update`)
 
-- [ ] Move the obstacle left (`self.rect.x -= self.speed`)
-- [ ] Check if the obstacle is completely off-screen to the left (`self.rect.right < 0`)
-- [ ] If off-screen, remove the sprite from groups (`self.kill()`)
+- [ ] Move the obstacle horizontally to the left based on its speed.
+- [ ] Check if the obstacle has moved completely off the left side of the screen.
+- [ ] If off-screen, remove the obstacle from the game.
 
 
 

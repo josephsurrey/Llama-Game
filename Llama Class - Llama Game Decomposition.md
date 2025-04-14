@@ -1,42 +1,44 @@
 ---
+
 kanban-plugin: board
+
 ---
 
-## `__init__(self)`
+## Setup Player (`__init__`)
 
-- [ ] Call parent constructor (`super().__init__()`)
-- [ ] Load llama image(s) (e.g., running, jumping) using `pygame.image.load().convert_alpha()`
-- [ ] Set initial `self.image`
-- [ ] Get `self.rect` from the image (`self.image.get_rect()`)
-- [ ] Define initial position (`self.rect.bottomleft = (LLAMA_START_X, GROUND_HEIGHT)`)
-- [ ] Store initial position for reset (`self.initial_pos = self.rect.bottomleft`)
-- [ ] Initialize physics variables (`self.velocity_y = 0`)
-- [ ] Create collision mask (`self.mask = pygame.mask.from_surface(self.image)`)
-- [ ] (Optional) Store animation frames and index if animating
-
-
-## `update(self)`
-
-- [ ] Apply gravity to `self.velocity_y` (`self.velocity_y += GRAVITY`)
-- [ ] Update `self.rect.y` based on `self.velocity_y`
-- [ ] Check if llama hit or went below ground level (`self.rect.bottom >= GROUND_HEIGHT`)
-- [ ] If on/below ground, set `self.rect.bottom = GROUND_HEIGHT` and `self.velocity_y = 0`
-- [ ] (Optional) Update animation frame based on state (jumping/running)
-- [ ] (Optional) If animation frame changed, update `self.mask`
+- [ ] Initialize the base Sprite features.
+- [ ] Load the player's visual appearance (image or shape).
+- [ ] Set the initial visual appearance.
+- [ ] Get the rectangle representing the player's position and size.
+- [ ] Set the player's starting position on the screen.
+- [ ] Remember the starting position for resetting later.
+- [ ] Initialize physics variables (like vertical speed).
+- [ ] Create a precise outline (mask) for collision detection.
+- [ ] (Optional) Prepare frames for player animation.
 
 
-## `jump(self)`
+## Update Player State (`update`)
 
-- [ ] Check if llama is on the ground (`self.rect.bottom == GROUND_HEIGHT`)
-- [ ] If on ground, set `self.velocity_y = -JUMP_STRENGTH`
-- [ ] (Optional) Change image/animation state to jumping
+- [ ] Apply the effect of gravity to the player's vertical speed.
+- [ ] Change the player's vertical position based on its current speed.
+- [ ] Check if the player has landed on or fallen below the ground.
+- [ ] If on the ground, stop downward movement and reset vertical speed.
+- [ ] (Optional) Change the player's visual appearance based on state (jumping/running).
+- [ ] (Optional) Update the collision mask if the visual appearance changed.
 
 
-## `reset(self)`
+## Perform Jump (`jump`)
 
-- [ ] Reset position to initial position (`self.rect.bottomleft = self.initial_pos`)
-- [ ] Reset velocity (`self.velocity_y = 0`)
-- [ ] Reset animation state to default (running)
+- [ ] Check if the player is currently on the ground.
+- [ ] If on the ground, give the player an upward vertical speed boost.
+- [ ] (Optional) Change the player's visual appearance to jumping state.
+
+
+## Reset Player (`reset`)
+
+- [ ] Move the player back to its initial starting position.
+- [ ] Reset the player's vertical speed to zero.
+- [ ] (Optional) Reset the player's visual appearance to the default (running) state.
 
 
 

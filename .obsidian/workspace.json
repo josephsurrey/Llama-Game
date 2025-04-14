@@ -13,14 +13,14 @@
             "state": {
               "type": "kanban",
               "state": {
-                "file": "Game Class - Llama Game Decomposition.md",
+                "file": "Obstacle Class - Llama Game Decomposition.md",
                 "kanbanViewState": {
                   "kanban-plugin": "board",
                   "list-collapse": []
                 }
               },
               "icon": "lucide-trello",
-              "title": "Game Class - Llama Game Decomposition"
+              "title": "Obstacle Class - Llama Game Decomposition"
             }
           }
         ]
@@ -177,13 +177,13 @@
   },
   "active": "03548726d2b085a0",
   "lastOpenFiles": [
-    "test.py",
-    "constants.py - Llama Game Decomposition.md",
     "Llama Class - Llama Game Decomposition.md",
-    "Scoreboard Class - Llama Game Decomposition.md",
-    "Untitled.md",
-    "Obstacle Class - Llama Game Decomposition.md",
     "Game Class - Llama Game Decomposition.md",
+    "Scoreboard Class - Llama Game Decomposition.md",
+    "constants.py - Llama Game Decomposition.md",
+    "Obstacle Class - Llama Game Decomposition.md",
+    "test.py",
+    "Untitled.md",
     "Welcome.md",
     "desktop.ini"
   ]
