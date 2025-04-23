@@ -21,4 +21,15 @@ Social implications are important because games can have unintended negative con
 
 Fortunately, the program which I will be creating is a very simple game, which means that additional safeguards will probably not need to be implemented to stop misuse of the game.
 
-
+# GUI Design
+## Wireframes
+### Regular Gameplay
+![[gameplay_wireframe.png]]
+### Game over (not high score)
+![[gameover_standard_wireframe.png]]
+### Game over (high score)
+![[gameover_eligible_wireframe.png]]
+### Enter name (high score)
+![[entername_wireframe.png]]
+### High scores
+![[highscores_wireframe.png]]

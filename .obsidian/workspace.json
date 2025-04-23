@@ -11,16 +11,14 @@
             "id": "03548726d2b085a0",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "Llama Class - Llama Game Decomposition.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
+                "file": "Documentation - Llama Game.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "Llama Class - Llama Game Decomposition"
+              "icon": "lucide-file",
+              "title": "Documentation - Llama Game"
             }
           }
         ]
@@ -177,15 +175,27 @@
   },
   "active": "03548726d2b085a0",
   "lastOpenFiles": [
+    "Llama Class - Llama Game Decomposition.md",
+    "Wireframes/gameplay_wireframe.png",
+    "Wireframes/highscores_wireframe.png",
+    "Wireframes/entername_wireframe.png",
+    "Wireframes/gameover_eligible_wireframe.png",
+    "Wireframes/gameover_standard_wireframe.png",
+    "Wireframes/highscores_wireframe.xml",
+    "Wireframes/New Text Document.txt",
+    "Wireframes/entername_wireframe.xml",
+    "Wireframes/gameover_eligible_wireframe.xml",
+    "Wireframes/gameover_standard_wireframe.xml",
+    "Wireframes/gameplay_wireframe.xml",
+    "Wireframes",
+    "New folder",
     "Game Class - Llama Game Decomposition.md",
     "constants.py - Llama Game Decomposition.md",
     "Documentation - Llama Game.md",
     "Scoreboard Class - Llama Game Decomposition.md",
     "Obstacle Class - Llama Game Decomposition.md",
-    "Llama Class - Llama Game Decomposition.md",
     "Practice assessment - Llama game 1.pdf",
     "test.py",
-    "Welcome.md",
-    "desktop.ini"
+    "Welcome.md"
   ]
 }
