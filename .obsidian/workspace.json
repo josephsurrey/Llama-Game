@@ -22,6 +22,76 @@
             }
           }
         ]
+      },
+      {
+        "id": "3947bd8fe5a70960",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bb306eef7a2c5667",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "Llama Class - Llama Game Decomposition.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": []
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "Llama Class - Llama Game Decomposition"
+            }
+          },
+          {
+            "id": "2b090957909f89de",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "Game Class - Llama Game Decomposition.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": []
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "Game Class - Llama Game Decomposition"
+            }
+          },
+          {
+            "id": "dbb6825632092c13",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "Scoreboard Class - Llama Game Decomposition.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": []
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "Scoreboard Class - Llama Game Decomposition"
+            }
+          },
+          {
+            "id": "bffddac7560e1b6f",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "Obstacle Class - Llama Game Decomposition.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": []
+                }
+              },
+              "icon": "lucide-trello",
+              "title": "Obstacle Class - Llama Game Decomposition"
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -78,7 +148,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "b49fcc580980151f",
@@ -176,6 +247,12 @@
   "active": "03548726d2b085a0",
   "lastOpenFiles": [
     "Llama Class - Llama Game Decomposition.md",
+    "Obstacle Class - Llama Game Decomposition.md",
+    "Documentation - Llama Game.md",
+    "Game Class - Llama Game Decomposition.md",
+    "Scoreboard Class - Llama Game Decomposition.md",
+    "constants.py - Llama Game Decomposition.md",
+    "Game Class - Llama Game Decomposition 1.md",
     "Wireframes/gameplay_wireframe.png",
     "Wireframes/highscores_wireframe.png",
     "Wireframes/entername_wireframe.png",
@@ -189,11 +266,6 @@
     "Wireframes/gameplay_wireframe.xml",
     "Wireframes",
     "New folder",
-    "Game Class - Llama Game Decomposition.md",
-    "constants.py - Llama Game Decomposition.md",
-    "Documentation - Llama Game.md",
-    "Scoreboard Class - Llama Game Decomposition.md",
-    "Obstacle Class - Llama Game Decomposition.md",
     "Practice assessment - Llama game 1.pdf",
     "test.py",
     "Welcome.md"
