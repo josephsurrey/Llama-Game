@@ -4,100 +4,98 @@ kanban-plugin: board
 
 ---
 
-## `__init__(self)`
+## Setup Game (`__init__`)
 
-- [ ] Initialize Pygame (`pygame.init()`)
-- [ ] Initialize Pygame mixer (`pygame.mixer.init()`) (Optional: if using sound)
-- [ ] Initialize Pygame font (`pygame.font.init()`)
-- [ ] Create the game window/screen (`pygame.display.set_mode`)
-- [ ] Set the window caption (`pygame.display.set_caption`)
-- [ ] Create a Pygame Clock (`pygame.time.Clock`)
-- [ ] Initialize game state variables (`self.running = True`, `self.game_over = False`)
-- [ ] Store game start time (`self.start_time = pygame.time.get_ticks()`)
-- [ ] Create sprite groups (`self.all_sprites = pygame.sprite.Group()`, `self.obstacles = pygame.sprite.Group()`)
-- [ ] Instantiate the Llama (`self.llama = Llama()`)
-- [ ] Add Llama instance to `self.all_sprites` group
-- [ ] Instantiate the Scoreboard (`self.scoreboard = Scoreboard()`)
-- [ ] Load/prepare background and ground graphics/positions
-- [ ] Define custom event for obstacle spawning (`OBSTACLE_SPAWN_EVENT = pygame.USEREVENT + 1`)
-- [ ] Set timer for obstacle spawning (`pygame.time.set_timer(OBSTACLE_SPAWN_EVENT, obstacle_spawn_rate_ms)`)
-
-
-## `run(self)`
-
-- [ ] Start the main game loop (`while self.running:`)
-- [ ] Call `self._handle_events()` inside the loop
-- [ ] Call `self._update()` inside the loop
-- [ ] Call `self._draw()` inside the loop
-- [ ] Tick the clock (`self.clock.tick(FPS)`) inside the loop
-- [ ] Check if `self.game_over` is True after update/draw
-- [ ] If game over, call `self._show_game_over_screen()`
-- [ ] Call `pygame.quit()` after the main loop finishes
+- [ ] Start up Pygame systems.
+- [ ] Prepare the sound system (Optional: if using sound).
+- [ ] Prepare the font system for displaying text.
+- [ ] Create the main game window.
+- [ ] Set the title displayed on the game window.
+- [ ] Create a timer to control game speed (FPS).
+- [ ] Set initial game status (e.g., game is running, game is not over).
+- [ ] Record the time the game session started for scoring.
+- [ ] Create containers (groups) to hold all game objects and obstacles.
+- [ ] Create the player character (Llama).
+- [ ] Add the player character to the container for all game objects.
+- [ ] Create the scoreboard display.
+- [ ] Load or prepare background and ground visuals.
+- [ ] Define a unique signal (custom event) for when to create a new obstacle.
+- [ ] Start a timer that sends the obstacle creation signal repeatedly.
 
 
-## `_handle_events(self)`
+## Run Game Loop (`run`)
 
-- [ ] Start event loop (`for event in pygame.event.get():`)
-- [ ] Check for `pygame.QUIT` event to set `self.running = False`
-- [ ] Check for custom obstacle spawn event (`event.type == OBSTACLE_SPAWN_EVENT`)
-- [ ] If spawn event, call `self._spawn_obstacle()`
-- [ ] Check for keydown events (`event.type == pygame.KEYDOWN`)
-- [ ] If jump key (SPACE or UP) pressed and `not self.game_over`, call `self.llama.jump()`
-- [ ] If restart key ('R') pressed and `self.game_over`, call `self._reset_game()`
-
-
-## `_update(self)`
-
-- [ ] Check if `self.game_over` is False
-- [ ] If game is running, update all sprites (`self.all_sprites.update()`)
-- [ ] If game is running, check for collisions (`self._check_collisions()`)
-- [ ] If game is running, update the scoreboard (`self.scoreboard.update(pygame.time.get_ticks(), self.start_time)`)
-- [ ] (Optional) Implement logic to increase difficulty (e.g., increase obstacle speed over time)
+- [ ] Begin the main loop that keeps the game running.
+- [ ] Handle player input and game events within the loop.
+- [ ] Update the state and position of all game objects within the loop.
+- [ ] Draw everything onto the screen within the loop.
+- [ ] Control the game's speed (frames per second) within the loop.
+- [ ] Check if the game has ended after updating/drawing.
+- [ ] If the game ended, display the game over screen.
+- [ ] Clean up Pygame resources after the main loop finishes.
 
 
-## `_draw(self)`
+## Handle Events (`_handle_events`)
 
-- [ ] Fill the screen with background color (`self.screen.fill(COLOR)`)
-- [ ] Draw the ground/static background elements
-- [ ] Draw all sprites onto the screen (`self.all_sprites.draw(self.screen)`)
-- [ ] Draw the scoreboard (`self.scoreboard.draw(self.screen)`)
-- [ ] Update the display (`pygame.display.flip()`)
-
-
-## `_spawn_obstacle(self)`
-
-- [ ] Create a new `Obstacle()` instance
-- [ ] Add the new obstacle to `self.all_sprites` group
-- [ ] Add the new obstacle to `self.obstacles` group
+- [ ] Check for any user actions or game events that occurred.
+- [ ] Check if the user tried to close the game window.
+- [ ] Check if it's time to create a new obstacle (custom event).
+- [ ] If it's time, trigger the obstacle creation process.
+- [ ] Check if the user pressed a key down.
+- [ ] If the jump key was pressed (and game is not over), make the player jump.
+- [ ] If the restart key was pressed (and game is over), restart the game.
 
 
-## `_check_collisions(self)`
+## Update Game State (`_update`)
 
-- [ ] Use `pygame.sprite.spritecollide()` to check for collisions between `self.llama` and `self.obstacles` group
-- [ ] Use mask collision (`pygame.sprite.collide_mask`) for pixel-perfect detection
-- [ ] If collision detected, set `self.game_over = True`
-- [ ] (Optional) If collision, play a sound effect
-
-
-## `_reset_game(self)`
-
-- [ ] Reset game state (`self.game_over = False`)
-- [ ] Reset the game start time (`self.start_time = pygame.time.get_ticks()`)
-- [ ] Reset the scoreboard (`self.scoreboard.reset(self.start_time)`)
-- [ ] Remove all existing obstacles from all groups (`self.obstacles.empty()`, iterate `self.all_sprites` or recreate groups)
-- [ ] Reset llama's position and physics state (`self.llama.reset()`) - *Requires adding a reset method to Llama*
-- [ ] (Optional) Reset obstacle speed/spawn rate if difficulty increases
+- [ ] Check if the game is currently in the 'game over' state.
+- [ ] If the game is still running, tell all game objects to update themselves (move, apply physics, etc.).
+- [ ] If the game is still running, check if the player has collided with any obstacles.
+- [ ] If the game is still running, update the score based on elapsed time.
+- [ ] (Optional) Add logic to make the game harder over time (e.g., speed up obstacles).
 
 
-## `_show_game_over_screen(self)`
+## Draw Frame (`_draw`)
 
-- [ ] Display "Game Over" text on screen
-- [ ] Display final score (possibly retrieve from `self.scoreboard`)
-- [ ] Display instructions to restart or quit
-- [ ] Keep updating the display (`pygame.display.flip()`)
-- [ ] Loop here, waiting for events (`pygame.event.wait()` or handle events)
-- [ ] Check for Quit event to set `self.running = False`
-- [ ] Check for Restart key ('R') to call `self._reset_game()` and break this loop
+- [ ] Fill the game window with the background color.
+- [ ] Draw the ground element.
+- [ ] Draw all the active game objects (player, obstacles) onto the screen.
+- [ ] Draw the current score onto the screen.
+- [ ] Show the final image on the display.
+
+
+## Spawn Obstacle (`_spawn_obstacle`)
+
+- [ ] Create a new obstacle object.
+- [ ] Add the new obstacle to the group of all active game objects.
+- [ ] Add the new obstacle specifically to the group of obstacles (for collision checks).
+
+
+## Check Collisions (`_check_collisions`)
+
+- [ ] Check if the player object is touching any obstacle object.
+- [ ] Use precise collision detection (checking actual shapes, not just boxes).
+- [ ] If a collision happened, set the game state to 'game over'.
+- [ ] (Optional) If a collision happened, play a sound effect.
+
+
+## Reset Game (`_reset_game`)
+
+- [ ] Set the game state back to 'not game over'.
+- [ ] Reset the start time for the new game session.
+- [ ] Reset the scoreboard to zero.
+- [ ] Remove all obstacles currently on the screen.
+- [ ] Put the player back in the starting position with reset physics.
+- [ ] (Optional) Reset any difficulty scaling (like obstacle speed) back to default.
+
+
+## Show Game Over Screen (`_show_game_over_screen`)
+
+- [ ] Prepare the "Game Over" text to be displayed.
+- [ ] Prepare the final score text to be displayed.
+- [ ] Prepare the instructions text (Restart/Quit) to be displayed.
+- [ ] Ensure this screen stays visible (drawing happens in `_draw`).
+- [ ] (Input handling for this screen is in `_handle_events`).
 
 
 

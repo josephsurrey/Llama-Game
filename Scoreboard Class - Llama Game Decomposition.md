@@ -4,34 +4,34 @@ kanban-plugin: board
 
 ---
 
-## `__init__(self, x=10, y=10, font_size=30, color=BLACK)`
+## Setup Scoreboard (`__init__`)
 
-- [ ] Store position (`self.x`, `self.y`), color (`self.color`)
-- [ ] Load/create the font (`self.font = pygame.font.Font(None, font_size)`)
-- [ ] Initialize score value (`self.score = 0`)
-- [ ] Initialize `self.image` and `self.rect` for rendering (`self.image = None`, `self.rect = None`)
-- [ ] Render initial score text surface
-
-
-## `update(self, current_time, game_start_time)`
-
-- [ ] Calculate current score based on elapsed time (`score = (current_time - game_start_time) // 1000`)
-- [ ] Check if calculated score is different from stored `self.score`
-- [ ] If score changed, update `self.score = score`
-- [ ] If score changed, re-render the text surface (`self.image = self.font.render(...)`)
-- [ ] If score changed, update the text rect (`self.rect = self.image.get_rect()`, set position `self.rect.topleft = (self.x, self.y)`)
+- [ ] Store the desired position and color for the score display.
+- [ ] Load or prepare the font for rendering text.
+- [ ] Set the initial score value to zero.
+- [ ] Prepare variables to hold the rendered score text image and its position.
+- [ ] Create the initial score text image (e.g., "Score: 0").
 
 
-## `draw(self, screen)`
+## Update Score (`update`)
 
-- [ ] Blit the current score surface onto the screen (`screen.blit(self.image, self.rect)`)
+- [ ] Calculate the current score based on how long the game has been running.
+- [ ] Check if the calculated score is different from the currently displayed score.
+- [ ] If the score has changed, store the new score value.
+- [ ] If the score has changed, create a new text image for the updated score.
+- [ ] If the score has changed, update the position rectangle for the new text image.
 
 
-## `reset(self, game_start_time)`
+## Draw Score (`draw`)
 
-- [ ] Reset score value (`self.score = 0`)
-- [ ] Re-render the score text surface for the score '0'
-- [ ] Update the text rect
+- [ ] Draw the current score text image onto the main game screen.
+
+
+## Reset Score (`reset`)
+
+- [ ] Set the score value back to zero.
+- [ ] Create the text image for the zero score.
+- [ ] Update the position rectangle for the zero score text.
 
 
 

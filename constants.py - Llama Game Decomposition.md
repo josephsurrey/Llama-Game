@@ -1,23 +1,27 @@
 ---
+
 kanban-plugin: board
+
 ---
 
 ## Define Constants
 
-- [ ] Define `SCREEN_WIDTH`, `SCREEN_HEIGHT`
-- [ ] Define `FPS`
-- [ ] Define `GROUND_HEIGHT`
-- [ ] Define `GRAVITY`
-- [ ] Define `JUMP_STRENGTH`
-- [ ] Define `LLAMA_START_X`
-- [ ] Define `OBSTACLE_SPEED` (initial)
-- [ ] Define `OBSTACLE_SPAWN_RATE_MS` (milliseconds)
-- [ ] Define color tuples (e.g., `WHITE`, `BLACK`, `GRAY`)
-- [ ] Define paths to image assets
+- [ ] Set the width and height of the game window.
+- [ ] Set the target frames per second for the game.
+- [ ] Define the vertical position of the ground.
+- [ ] Define the strength of gravity affecting the player.
+- [ ] Define how high the player jumps.
+- [ ] Set the starting horizontal position for the player.
+- [ ] Set the initial speed for obstacles moving left.
+- [ ] Set how often new obstacles appear (in milliseconds).
+- [ ] Define standard color values (like white, black, gray).
+- [ ] (If using images) Specify the file locations for image assets.
+
+
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false]}
+{"kanban-plugin":"board","list-collapse":[]}
 ```
 %%
