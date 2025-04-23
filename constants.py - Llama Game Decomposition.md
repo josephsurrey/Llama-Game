@@ -14,7 +14,7 @@ kanban-plugin: board
 - [ ] Set the starting horizontal position for the player.
 - [ ] Set the initial speed for obstacles moving left.
 - [ ] Set how often new obstacles appear (in milliseconds).
-- [ ] Define standard color values (like white, black, gray).
+- [ ] Define standard colour values (like white, black, grey).
 - [ ] (If using images) Specify the file locations for image assets.
 
 
