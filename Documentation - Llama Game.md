@@ -73,9 +73,27 @@ Fortunately, the program which I will be creating is a very simple game, which m
 ![[Scoreboard Class - Llama Game Decomposition]]
 
 # Project Development
+# Project Development
 ## constants.py
+#### Component Planning
+![[constants.py - Llama Game Decomposition#Define Constants]]
+# Test Plan: constants.py
 
-
+| Test Case / Constant Name          | Verification Focus        | Expected Type / Value / Constraint                                                                             | Test Type     |
+| :--------------------------------- | :------------------------ | :------------------------------------------------------------------------------------------------------------- | :------------ |
+| `WINDOW_WIDTH` / `WINDOW_HEIGHT`   | Definition & Value        | Defined as positive integers. Plausible dimensions for a game window.                                          | Value Check   |
+| `FPS`                              | Definition & Value        | Defined as a positive integer. Represents a reasonable frame rate.                                             | Value Check   |
+| `GROUND_Y`                         | Definition & Value        | Defined as an integer. Value should be less than `WINDOW_HEIGHT`, representing a Y-coordinate on the screen.   | Value Check   |
+| `GRAVITY`                          | Definition & Value        | Defined as a number (float or int). Represents acceleration.                                                   | Value Check   |
+| `JUMP_SPEED`                       | Definition & Value        | Defined as a number (float or int). Represents initial jump velocity (likely negative for upward movement).    | Value Check   |
+| `PLAYER_HORIZONTAL_POSITION`       | Definition & Value        | Defined as an integer. Represents starting X position within the window width.                                 | Value Check   |
+| `OBSTACLE_INITIAL_SPEED`           | Definition & Value        | Defined as a number (float or int). Represents initial obstacle speed (likely positive for leftward movement). | Value Check   |
+| `OBSTACLE_CREATION_INTERVAL`       | Definition & Value        | Defined as a positive integer. Represents milliseconds between spawns.                                         | Value Check   |
+| Color Tuples (e.g., `WHITE`)       | Definition & Type & Value | Defined as 3-element tuples of integers. Each element between 0-255.                                           | Type & Value  |
+| Image Paths (e.g., `PLAYER_IMAGE`) | Definition & Type & Value | Defined as strings. Represent file paths (validity depends on file system).                                    | Type & Value  |
+| Constant Accessibility             | Importability             | Other modules can successfully import and use these constants without error.                                   | Accessibility |
+| Type Consistency                   | Data Types                | All constants have the expected Python data types (int, float, tuple, str).                                    | Type Check    |
+#### Test Results
 ## [[Game Class - Llama Game Decomposition]]
 
 ### Setup Game (`__init__`)
