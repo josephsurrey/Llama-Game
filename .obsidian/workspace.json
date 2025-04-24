@@ -11,84 +11,16 @@
             "id": "03548726d2b085a0",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Documentation - Llama Game.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Documentation - Llama Game"
-            }
-          }
-        ]
-      },
-      {
-        "id": "3947bd8fe5a70960",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "bb306eef7a2c5667",
-            "type": "leaf",
-            "state": {
               "type": "kanban",
               "state": {
-                "file": "Llama Class - Llama Game Decomposition.md",
+                "file": "constants.py - Llama Game Decomposition.md",
                 "kanbanViewState": {
                   "kanban-plugin": "board",
                   "list-collapse": []
                 }
               },
               "icon": "lucide-trello",
-              "title": "Llama Class - Llama Game Decomposition"
-            }
-          },
-          {
-            "id": "2b090957909f89de",
-            "type": "leaf",
-            "state": {
-              "type": "kanban",
-              "state": {
-                "file": "Game Class - Llama Game Decomposition.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
-              },
-              "icon": "lucide-trello",
-              "title": "Game Class - Llama Game Decomposition"
-            }
-          },
-          {
-            "id": "dbb6825632092c13",
-            "type": "leaf",
-            "state": {
-              "type": "kanban",
-              "state": {
-                "file": "Scoreboard Class - Llama Game Decomposition.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
-              },
-              "icon": "lucide-trello",
-              "title": "Scoreboard Class - Llama Game Decomposition"
-            }
-          },
-          {
-            "id": "bffddac7560e1b6f",
-            "type": "leaf",
-            "state": {
-              "type": "kanban",
-              "state": {
-                "file": "Obstacle Class - Llama Game Decomposition.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
-              },
-              "icon": "lucide-trello",
-              "title": "Obstacle Class - Llama Game Decomposition"
+              "title": "constants.py - Llama Game Decomposition"
             }
           }
         ]
@@ -246,28 +178,30 @@
   },
   "active": "03548726d2b085a0",
   "lastOpenFiles": [
-    "Llama Class - Llama Game Decomposition.md",
-    "Obstacle Class - Llama Game Decomposition.md",
+    "constants.py~",
     "Documentation - Llama Game.md",
-    "Game Class - Llama Game Decomposition.md",
+    "constants.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/__init__.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/reporter.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/provider.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/requirements.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/resolver.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/factory.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/candidates.py",
+    "venv/Lib/site-packages/pip/_internal/resolution/resolvelib/base.py",
     "Scoreboard Class - Llama Game Decomposition.md",
-    "constants.py - Llama Game Decomposition.md",
-    "Game Class - Llama Game Decomposition 1.md",
-    "Wireframes/gameplay_wireframe.png",
     "Wireframes/highscores_wireframe.png",
-    "Wireframes/entername_wireframe.png",
-    "Wireframes/gameover_eligible_wireframe.png",
+    "Wireframes/gameplay_wireframe.png",
     "Wireframes/gameover_standard_wireframe.png",
-    "Wireframes/highscores_wireframe.xml",
-    "Wireframes/New Text Document.txt",
-    "Wireframes/entername_wireframe.xml",
-    "Wireframes/gameover_eligible_wireframe.xml",
-    "Wireframes/gameover_standard_wireframe.xml",
-    "Wireframes/gameplay_wireframe.xml",
-    "Wireframes",
-    "New folder",
-    "Practice assessment - Llama game 1.pdf",
-    "test.py",
+    "Wireframes/gameover_eligible_wireframe.png",
+    "Wireframes/entername_wireframe.png",
+    "Obstacle Class - Llama Game Decomposition.md",
+    "Llama Class - Llama Game Decomposition.md",
+    "Game Class - Llama Game Decomposition.md",
+    "constants.py - Llama Game Decomposition.md",
+    "Llama Game Decomposition.md",
+    "Untitled.md",
     "Welcome.md"
   ]
 }
