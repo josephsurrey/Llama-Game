@@ -175,6 +175,7 @@
   },
   "active": "03548726d2b085a0",
   "lastOpenFiles": [
+    "test_results/Test Results - constants.py - test_01.html",
     "test_results",
     "constants.py - Llama Game Decomposition.md",
     "constants.py~",
@@ -186,7 +187,6 @@
     "venv/Lib/site-packages/pygame/_sdl2/video.cp313-win_amd64.pyd",
     "venv/Lib/site-packages/pygame/_sdl2/video.pyi",
     "venv/Lib/site-packages/pygame/_sdl2/touch.pyi",
-    "venv/Lib/site-packages/pygame/_sdl2/touch.cp313-win_amd64.pyd",
     "venv/Lib/site-packages/pygame/tests/fixtures/fonts/A_PyGameMono-8.png",
     "venv/Lib/site-packages/pygame/tests/fixtures/fonts/u13079_PyGameMono-8.png",
     "venv/Lib/site-packages/pygame/examples/data/teal.svg",
