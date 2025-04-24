@@ -11,16 +11,14 @@
             "id": "03548726d2b085a0",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "constants.py - Llama Game Decomposition.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
+                "file": "Documentation - Llama Game.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "constants.py - Llama Game Decomposition"
+              "icon": "lucide-file",
+              "title": "Documentation - Llama Game"
             }
           }
         ]
@@ -80,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "b49fcc580980151f",
@@ -178,6 +175,8 @@
   },
   "active": "03548726d2b085a0",
   "lastOpenFiles": [
+    "main.py",
+    "constants.py - Llama Game Decomposition.md",
     "images/cactus.png",
     "images/ground.png",
     "images/Llama.png",
@@ -200,11 +199,9 @@
     "Wireframes/gameplay_wireframe.png",
     "Wireframes/gameover_standard_wireframe.png",
     "Wireframes/gameover_eligible_wireframe.png",
-    "Wireframes/entername_wireframe.png",
     "Obstacle Class - Llama Game Decomposition.md",
     "Llama Class - Llama Game Decomposition.md",
     "Game Class - Llama Game Decomposition.md",
-    "constants.py - Llama Game Decomposition.md",
     "Llama Game Decomposition.md",
     "Untitled.md",
     "Welcome.md"
