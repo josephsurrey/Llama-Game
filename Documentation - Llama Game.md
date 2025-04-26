@@ -73,7 +73,6 @@ Fortunately, the program which I will be creating is a very simple game, which m
 ![[Scoreboard Class - Llama Game Decomposition]]
 
 # Project Development
-# Project Development
 ## constants.py
 #### Component Planning
 ![[constants.py - Llama Game Decomposition#Define Constants]]
