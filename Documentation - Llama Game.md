@@ -113,6 +113,9 @@ GROUND_IMAGE = "images/ground.png"
 GAME_ICON = "images/llama_icon.png"
 ```
 This ensures that the program looks for the files in the `images` folder in the current working directory.
+##### Test 02
+![[Test Results - constants.py - test_02.html]]
+The program passed 18/18 tests successfully after making the changes from [[#Test 01]].
 ## [[Game Class - Llama Game Decomposition]]
 
 ### Setup Game (`__init__`)
