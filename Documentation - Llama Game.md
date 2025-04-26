@@ -94,6 +94,25 @@ Fortunately, the program which I will be creating is a very simple game, which m
 | Constant Accessibility             | Importability             | Other modules can successfully import and use these constants without error.                                   | Accessibility |
 | Type Consistency                   | Data Types                | All constants have the expected Python data types (int, float, tuple, str).                                    | Type Check    |
 #### Test Results
+##### Test 01
+![[Test Results - constants.py - test_01.html]]
+The program passed 14/18 tests successfully. The program failed 4/18 tests. The 4 tests that were failed were the image loading tests. The issue causing the failure was the image path in `constants.py`. 
+```
+# Image file locations  
+PLAYER_IMAGE = "/images/Llama.png"  
+OBSTACLE_IMAGE = "/images/cactus.png"  
+GROUND_IMAGE = "/images/ground.png"  
+GAME_ICON = "/images/llama_icon.png"
+```
+The file locations linked to `/images`, which is an absolute path, looking for the image in the root directory of the hard drive. The image path should actually be
+```
+# Image file locations  
+PLAYER_IMAGE = "images/Llama.png"  
+OBSTACLE_IMAGE = "images/cactus.png"  
+GROUND_IMAGE = "images/ground.png"  
+GAME_ICON = "images/llama_icon.png"
+```
+This ensures that the program looks for the files in the `images` folder in the current working directory.
 ## [[Game Class - Llama Game Decomposition]]
 
 ### Setup Game (`__init__`)

@@ -11,6 +11,7 @@ try:
 except ImportError:
     pytest.fail("Could not import constants.py. Check PYTHONPATH or file location.")
 
+
 # --- Fixture to Initialize Pygame ---
 
 @pytest.fixture(scope="module", autouse=True)
@@ -20,11 +21,12 @@ def pygame_init():
     try:
         pygame.display.init()
         print("Pygame display initialized for tests.")
-        yield # Let tests run
+        yield  # Let tests run
         pygame.display.quit()
         print("Pygame display quit after tests.")
     except pygame.error as e:
         pytest.skip(f"Pygame display could not be initialized, skipping image load tests: {e}")
+
 
 # --- Test Basic Definitions and Types ---
 # (Keep the tests for WINDOW_WIDTH, FPS, GROUND_Y, etc. as before)
@@ -35,10 +37,12 @@ def test_window_dimensions_defined():
     assert isinstance(constants.WINDOW_HEIGHT, int), "WINDOW_HEIGHT should be an integer"
     assert constants.WINDOW_HEIGHT > 0, "WINDOW_HEIGHT should be positive"
 
+
 def test_fps_defined():
     """Check FPS constant exists and is a positive integer."""
     assert isinstance(constants.FPS, int), "FPS should be an integer"
     assert constants.FPS > 0, "FPS should be positive"
+
 
 def test_ground_y_defined():
     """Check GROUND_Y constant exists, is an integer, and within screen height."""
@@ -46,13 +50,16 @@ def test_ground_y_defined():
     assert 0 <= constants.GROUND_Y < constants.WINDOW_HEIGHT, \
         "GROUND_Y should be within the window height"
 
+
 def test_gravity_defined():
     """Check gravity constant exists and is a number."""
     assert isinstance(constants.GRAVITY, (int, float)), "GRAVITY should be a number (int or float)"
 
+
 def test_jump_speed_defined():
     """Check jump speed constant exists and is a number."""
     assert isinstance(constants.JUMP_SPEED, (int, float)), "JUMP_SPEED should be a number (int or float)"
+
 
 def test_player_position_defined():
     """Check player starting position constant exists and is within screen width."""
@@ -60,6 +67,7 @@ def test_player_position_defined():
         "PLAYER_HORIZONTAL_POSITION should be an integer"
     assert 0 <= constants.PLAYER_HORIZONTAL_POSITION < constants.WINDOW_WIDTH, \
         "PLAYER_HORIZONTAL_POSITION should be within the window width"
+
 
 def test_obstacle_settings_defined():
     """Check obstacle constants exist and have expected types/values."""
@@ -78,6 +86,7 @@ EXPECTED_COLORS = [
     "WHITE", "BLACK", "GREY", "RED", "GREEN", "BLUE"
 ]
 
+
 @pytest.mark.parametrize("color_name", EXPECTED_COLORS)
 def test_color_values(color_name):
     """Check color constants are 3-element tuples of integers [0-255]."""
@@ -90,10 +99,12 @@ def test_color_values(color_name):
         assert isinstance(component, int), f"Elements of {color_name} should be integers"
         assert 0 <= component <= 255, f"Elements of {color_name} should be between 0 and 255"
 
+
 # List expected image path constants
 EXPECTED_IMAGE_PATHS = [
     "PLAYER_IMAGE", "OBSTACLE_IMAGE", "GROUND_IMAGE", "GAME_ICON"
 ]
+
 
 @pytest.mark.parametrize("path_name", EXPECTED_IMAGE_PATHS)
 def test_image_paths_loadable(path_name, pygame_init):
@@ -115,7 +126,7 @@ def test_image_paths_loadable(path_name, pygame_init):
         # Attempt to load the image using the calculated absolute path
         # Convert Path object to string for pygame.image.load
         img = pygame.image.load(str(absolute_image_path))
-        assert img is not None # Check if loading returned a valid Surface object
+        assert img is not None  # Check if loading returned a valid Surface object
 
     except FileNotFoundError:
         # The absolute path wasn't found
@@ -123,6 +134,7 @@ def test_image_paths_loadable(path_name, pygame_init):
     except pygame.error as e:
         # Catch Pygame-specific errors (e.g., unsupported format, file corruption)
         pytest.fail(f"Pygame error loading image specified by {path_name} ('{absolute_image_path}'): {e}")
+
 
 # --- Test Overall Accessibility ---
 
