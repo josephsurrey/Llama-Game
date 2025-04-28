@@ -1,6 +1,28 @@
+import pygame
+
+import constants
+
+
 class Game:
     def __init__(self):
-        pass
+        # Initialise pygame
+        pygame.init()
+        # Initialise pygame sound
+        pygame.mixer.init()
+        # Initialise pygame font
+        pygame.font.init()
+
+        # Set the display mode with defined constants for width and height
+        self.screen = pygame.display.set_mode(
+            (constants.WINDOW_WIDTH,constants.WINDOW_HEIGHT))
+        # Set the window caption
+        pygame.display.set_caption(constants.WINDOW_TITLE)
+
+        # Start game clock
+        self.Clock = pygame.time.Clock
+
+        # Set initial game states
+        self.running
 
     def run(self):
         pass

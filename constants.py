@@ -1,5 +1,6 @@
 WINDOW_WIDTH = 900 # Width of the game window
 WINDOW_HEIGHT = 400 # Height of the game window
+WINDOW_TITLE = "Llama Game - Joseph Surrey" # Title of game window
 FPS = 30 # Frames per second
 
 GROUND_Y = 100 # Y position of the ground

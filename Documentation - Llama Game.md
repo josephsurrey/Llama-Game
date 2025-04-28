@@ -76,7 +76,14 @@ Fortunately, the program which I will be creating is a very simple game, which m
 ## constants.py
 #### Component Planning
 ![[constants.py - Llama Game Decomposition#Define Constants]]
-# Test Plan: constants.py
+#### Change List
+
+| Date  | Change                                                                                        |
+| ----- | --------------------------------------------------------------------------------------------- |
+| 28/04 | Added constant for the window title/caption <br>`WINDOW_TITLE = "Llama Game - Joseph Surrey"` |
+|       |                                                                                               |
+
+#### Test Plan: constants.py
 
 | Test Case / Constant Name          | Verification Focus        | Expected Type / Value / Constraint                                                                             | Test Type     |
 | :--------------------------------- | :------------------------ | :------------------------------------------------------------------------------------------------------------- | :------------ |
@@ -93,7 +100,7 @@ Fortunately, the program which I will be creating is a very simple game, which m
 | Constant Accessibility             | Importability             | Other modules can successfully import and use these constants without error.                                   | Accessibility |
 | Type Consistency                   | Data Types                | All constants have the expected Python data types (int, float, tuple, str).                                    | Type Check    |
 #### Test Results
-##### Test 01
+##### Test 01 - 26/04
 ![[Test Results - constants.py - test_01.html]]
 The program passed 14/18 tests successfully. The program failed 4/18 tests. The 4 tests that were failed were the image loading tests. The issue causing the failure was the image path in `constants.py`. 
 ```
@@ -112,7 +119,7 @@ GROUND_IMAGE = "images/ground.png"
 GAME_ICON = "images/llama_icon.png"
 ```
 This ensures that the program looks for the files in the `images` folder in the current working directory.
-##### Test 02
+##### Test 02 - 26/04
 ![[Test Results - constants.py - test_02.html]]
 The program passed 18/18 tests successfully after making the changes from [[#Test 01]].
 ## [[Game Class - Llama Game Decomposition]]
@@ -121,15 +128,14 @@ The program passed 18/18 tests successfully after making the changes from [[#Tes
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Setup Game (`__init__`)]]
 #### Test Plan
-| Test Case                                 | Input / Conditions                                       | Expected Output                                                                                                                                                                                                                                   | Test Type         |
-| :---------------------------------------- | :------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------- |
-| Standard Initialization                   | `Game()` called                                          | Pygame initialized, window created, caption set, clock exists, state flags (`running`, `game_over`, etc.) set to defaults, sprite groups are empty initially, Llama & Scoreboard objects created, High scores list attempted load, Timer started. | Expected          |
-| High Score File Exists                    | `high_scores.json` exists and contains valid JSON list   | `self.high_scores` populated with data from file.                                                                                                                                                                                                 | Expected          |
-| High Score File Does Not Exist            | `high_scores.json` is missing                            | `self.high_scores` is initialized as an empty list. No error/crash.                                                                                                                                                                               | Edge Case         |
-| High Score File Corrupted                 | `high_scores.json` exists but contains invalid JSON      | Error handled gracefully (e.g., exception caught), `self.high_scores` initialized as an empty list. No crash.                                                                                                                                     | Error Handling    |
-| Missing Font Files (Fallback test)        | Default system font specified in `Scoreboard` is missing | Scoreboard initializes using the fallback system font without crashing.                                                                                                                                                                           | Error Handling    |
-| Pygame Initialization Fails (Conceptual)  | e.g., Display system unavailable                         | Program exits gracefully with an error message (or handles failure appropriately based on `pygame.init()` return values).                                                                                                                         | Error Handling    |
-| Timer Setup Fails (Conceptual - Unlikely) | `pygame.time.set_timer` fails                            | Program potentially logs error or exits, depending on error handling strategy.                                                                                                                                                                    | Error Handling    |
+| Test Case                                 | Input / Conditions                                       | Expected Output                                                                                                                                                                                                                                   | Test Type      |
+| :---------------------------------------- | :------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------- |
+| Standard Initialization                   | `Game()` called                                          | Pygame initialized, window created, caption set, clock exists, state flags (`running`, `game_over`, etc.) set to defaults, sprite groups are empty initially, Llama & Scoreboard objects created, High scores list attempted load, Timer started. | Expected       |
+| High Score File Exists                    | `high_scores.json` exists and contains valid JSON list   | `self.high_scores` populated with data from file.                                                                                                                                                                                                 | Expected       |
+| High Score File Does Not Exist            | `high_scores.json` is missing                            | `self.high_scores` is initialized as an empty list. No error/crash.                                                                                                                                                                               | Edge Case      |
+| High Score File Corrupted                 | `high_scores.json` exists but contains invalid JSON      | Error handled gracefully (e.g., exception caught), `self.high_scores` initialized as an empty list. No crash.                                                                                                                                     | Error Handling |
+| Missing Font Files (Fallback test)        | Default system font specified in `Scoreboard` is missing | Scoreboard initializes using the fallback system font without crashing.                                                                                                                                                                           | Error Handling |
+| Pygame Initialization Fails (Conceptual)  | e.g., Display system unavailable                         | Program exits gracefully with an error message (or handles failure appropriately based on `pygame.init()` return values).                                                                                                                         | Error Handling |
 #### Test Results
 
 ### Run Game Loop (`run`)
