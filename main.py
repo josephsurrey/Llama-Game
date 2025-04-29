@@ -22,7 +22,47 @@ class Game:
         self.Clock = pygame.time.Clock
 
         # Set initial game states
-        self.running
+        self.running = True
+        self.game_over = False
+        self.entering_name = False
+        self.displaying_scores = False
+        self.score_eligible_for_save = False
+
+        # Get start time
+        self.start_time = pygame.time.get_ticks()
+
+        # Create groups to hold game sprites
+        self.all_sprites = pygame.sprite.Group()
+        self.obstacles = pygame.sprite.Group()
+
+        # Create player sprite (Llama)
+        self.llama = Llama()
+
+        # Add player sprite to all_sprites group
+        self.all_sprites.add(self.llama)
+
+        # Create scoreboard
+        self.scoreboard = Scoreboard()
+
+        # Load ground image
+        try:
+            ground_image = pygame.image.load(constants.GROUND_IMAGE)
+            self.ground_image = ground_image.convert()
+        except pygame.error as e:
+            # If an error occurs when loading ground image,
+            # fall back to solid colour ground
+            print(
+                f"Error loading ground image:"
+                f" {constants.GROUND_IMAGE} - {e}")
+            print("Falling back to solid color ground.")
+            self.background_image = None
+        except FileNotFoundError:
+            # If file isn't found, fall back to solid colour ground
+            print(
+                f"Ground image file not found:"
+                f" {constants.GROUND_IMAGE}")
+            print("Falling back to solid color ground.")
+            self.background_image = None
 
     def run(self):
         pass
@@ -60,9 +100,9 @@ class Game:
     def _draw_high_scores_screen(self):
         pass
 
-class Llama:
+class Llama(pygame.sprite.Sprite):
     def __init__(self):
-        pass
+        super().__init__()
 
     def update(self):
         pass
@@ -73,9 +113,9 @@ class Llama:
     def reset(self):
         pass
 
-class Obstacle:
+class Obstacle(pygame.sprite.Sprite):
     def __init__(self):
-        pass
+        super().__init__()
 
     def update(self):
         pass
