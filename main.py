@@ -68,6 +68,18 @@ class Game:
         pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT,
                               constants.OBSTACLE_CREATION_INTERVAL)
 
+        # Load high scores
+        self._load_high_scores()
+
+        # Prepare variable for player name
+        self.player_name = ""
+
+        # Define fonts
+        self.score_font = pygame.font.SysFont(None, 36)
+        self.game_over_font = pygame.font.SysFont(None, 74)
+        self.button_font = pygame.font.SysFont(None, 24)
+        self.input_font = pygame.font.SysFont(None, 36)
+
     def run(self):
         pass
 
