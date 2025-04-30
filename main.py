@@ -1,3 +1,7 @@
+import sys
+import random
+import json
+import os
 import pygame
 
 import constants
@@ -19,7 +23,7 @@ class Game:
         pygame.display.set_caption(constants.WINDOW_TITLE)
 
         # Start game clock
-        self.Clock = pygame.time.Clock
+        self.clock = pygame.time.Clock
 
         # Set initial game states
         self.running = True
@@ -81,7 +85,22 @@ class Game:
         self.input_font = pygame.font.SysFont(None, 36)
 
     def run(self):
-        pass
+        # Begin main loop
+        while self.running:
+            # Handle player input and game events based on current game state
+            self._handle_events()
+            # Update the state and position of game objects
+            self._update()
+            # Draw everything onto the screen
+            self._draw()
+            # Control the game's FPS
+            # Used clock.tick_busy_loop which uses more CPU than clock.tick to
+            # ensure that the FPS timing is more accurate
+            self.clock.tick_busy_loop(constants.FPS)
+
+        # Exit after main loop finishes
+        pygame.quit()
+        sys.exit()
 
     def _handle_events(self):
         pass
