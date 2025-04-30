@@ -5,7 +5,7 @@ WINDOW_HEIGHT = 400 # Height of the game window
 WINDOW_TITLE = "Llama Game - Joseph Surrey" # Title of game window
 FPS = 30 # Frames per second
 
-# Custom pygame event
+# Custom Pygame Event
 OBSTACLE_SPAWN_EVENT = pygame.USEREVENT + 1
 
 GROUND_Y = 100 # Y position of the ground

@@ -81,7 +81,7 @@ Fortunately, the program which I will be creating is a very simple game, which m
 | Date  | Change                                                                                        |
 | ----- | --------------------------------------------------------------------------------------------- |
 | 28/04 | Added constant for the window title/caption <br>`WINDOW_TITLE = "Llama Game - Joseph Surrey"` |
-|       |                                                                                               |
+| 1/05  | Moved obstacle creation signal from `Game.__init__` to `constants.py`                         |
 
 #### Test Plan: constants.py
 
@@ -127,6 +127,12 @@ The program passed 18/18 tests successfully after making the changes from [[#Tes
 ### Setup Game (`__init__`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Setup Game (`__init__`)]]
+#### Change List
+
+| Date  | Change                                                                                        |
+| ----- | --------------------------------------------------------------------------------------------- |
+| 1/05  | Moved obstacle creation signal from `Game.__init__` to `constants.py`                         |
+
 #### Test Plan
 | Test Case                                 | Input / Conditions                                       | Expected Output                                                                                                                                                                                                                                   | Test Type      |
 | :---------------------------------------- | :------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------- |

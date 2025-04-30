@@ -9,6 +9,7 @@ kanban-plugin: board
 - [ ] Set the width and height of the game window.
 - [ ] Set the target frames per second for the game.
 - [ ] Define the vertical position of the ground.
+- [ ] Define a unique signal (custom event) for when to create a new obstacle.
 - [ ] Define the strength of gravity affecting the player.
 - [ ] Define how high the player jumps.
 - [ ] Set the starting horizontal position for the player.

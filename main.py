@@ -64,6 +64,10 @@ class Game:
             print("Falling back to solid color ground.")
             self.background_image = None
 
+        # Set timer for obstacle spawning
+        pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT,
+                              constants.OBSTACLE_CREATION_INTERVAL)
+
     def run(self):
         pass
 
