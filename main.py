@@ -59,14 +59,14 @@ class Game:
                 f"Error loading ground image:"
                 f" {constants.GROUND_IMAGE} - {e}")
             print("Falling back to solid color ground.")
-            self.background_image = None
+            self.ground_image = None
         except FileNotFoundError:
             # If file isn't found, fall back to solid colour ground
             print(
                 f"Ground image file not found:"
                 f" {constants.GROUND_IMAGE}")
             print("Falling back to solid color ground.")
-            self.background_image = None
+            self.ground_image = None
 
         # Set timer for obstacle spawning
         pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT,
