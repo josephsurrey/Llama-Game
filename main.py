@@ -129,7 +129,7 @@ class Game:
     def _check_score_eligible(self):
         pass
 
-    def _add_high_score(self):
+    def _add_high_score(self, name, score):
         pass
 
     def _draw_high_scores_screen(self):
