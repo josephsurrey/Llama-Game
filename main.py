@@ -18,7 +18,7 @@ class Game:
 
         # Set the display mode with defined constants for width and height
         self.screen = pygame.display.set_mode(
-            (constants.WINDOW_WIDTH,constants.WINDOW_HEIGHT))
+            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
         # Set the window caption
         pygame.display.set_caption(constants.WINDOW_TITLE)
 
@@ -167,7 +167,14 @@ class Game:
                         self.displaying_scores = False
 
     def _update(self):
-        pass
+        # Check if the game is playing
+        if not self.game_over and not self.entering_name and not self.displaying_scores:
+            # Updates all game objects
+            self.all_sprites.update()
+            # Update the score based on  time
+            self.scoreboard.update(pygame.time.get_ticks(), self.start_time)
+            # Check for collisions
+            self._check_collisions()
 
     def _draw(self):
         pass
@@ -196,6 +203,7 @@ class Game:
     def _draw_high_scores_screen(self):
         pass
 
+
 class Llama(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -209,6 +217,7 @@ class Llama(pygame.sprite.Sprite):
     def reset(self):
         pass
 
+
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -216,11 +225,12 @@ class Obstacle(pygame.sprite.Sprite):
     def update(self):
         pass
 
+
 class Scoreboard:
     def __init__(self):
         pass
 
-    def update(self):
+    def update(self, current_time_ticks, game_start_time_ticks):
         pass
 
     def draw(self):
@@ -228,6 +238,7 @@ class Scoreboard:
 
     def reset(self):
         pass
+
 
 if __name__ == "__main__":
     pass
