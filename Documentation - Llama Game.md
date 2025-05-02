@@ -85,20 +85,7 @@ Fortunately, the program which I will be creating is a very simple game, which m
 
 #### Test Plan: constants.py
 
-| Test Case / Constant Name          | Verification Focus        | Expected Type / Value / Constraint                                                                             | Test Type     |
-| :--------------------------------- | :------------------------ | :------------------------------------------------------------------------------------------------------------- | :------------ |
-| `WINDOW_WIDTH` / `WINDOW_HEIGHT`   | Definition & Value        | Defined as positive integers. Plausible dimensions for a game window.                                          | Value Check   |
-| `FPS`                              | Definition & Value        | Defined as a positive integer. Represents a reasonable frame rate.                                             | Value Check   |
-| `GROUND_Y`                         | Definition & Value        | Defined as an integer. Value should be less than `WINDOW_HEIGHT`, representing a Y-coordinate on the screen.   | Value Check   |
-| `GRAVITY`                          | Definition & Value        | Defined as a number (float or int). Represents acceleration.                                                   | Value Check   |
-| `JUMP_SPEED`                       | Definition & Value        | Defined as a number (float or int). Represents initial jump velocity (likely negative for upward movement).    | Value Check   |
-| `PLAYER_HORIZONTAL_POSITION`       | Definition & Value        | Defined as an integer. Represents starting X position within the window width.                                 | Value Check   |
-| `OBSTACLE_INITIAL_SPEED`           | Definition & Value        | Defined as a number (float or int). Represents initial obstacle speed (likely positive for leftward movement). | Value Check   |
-| `OBSTACLE_CREATION_INTERVAL`       | Definition & Value        | Defined as a positive integer. Represents milliseconds between spawns.                                         | Value Check   |
-| Color Tuples (e.g., `WHITE`)       | Definition & Type & Value | Defined as 3-element tuples of integers. Each element between 0-255.                                           | Type & Value  |
-| Image Paths (e.g., `PLAYER_IMAGE`) | Definition & Type & Value | Defined as strings. Represent file paths (validity depends on file system).                                    | Type & Value  |
-| Constant Accessibility             | Importability             | Other modules can successfully import and use these constants without error.                                   | Accessibility |
-| Type Consistency                   | Data Types                | All constants have the expected Python data types (int, float, tuple, str).                                    | Type Check    |
+
 #### Test Results
 ##### Test 01 - 26/04
 ![[Test Results - constants.py - test_01.html]]
@@ -134,27 +121,37 @@ The program passed 18/18 tests successfully after making the changes from [[#Tes
 | 1/05  | Moved obstacle creation signal from `Game.__init__` to `constants.py`                         |
 
 #### Test Plan
-| Test Case                                 | Input / Conditions                                       | Expected Output                                                                                                                                                                                                                                   | Test Type      |
-| :---------------------------------------- | :------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------- |
-| Standard Initialization                   | `Game()` called                                          | Pygame initialized, window created, caption set, clock exists, state flags (`running`, `game_over`, etc.) set to defaults, sprite groups are empty initially, Llama & Scoreboard objects created, High scores list attempted load, Timer started. | Expected       |
-| High Score File Exists                    | `high_scores.json` exists and contains valid JSON list   | `self.high_scores` populated with data from file.                                                                                                                                                                                                 | Expected       |
-| High Score File Does Not Exist            | `high_scores.json` is missing                            | `self.high_scores` is initialized as an empty list. No error/crash.                                                                                                                                                                               | Edge Case      |
-| High Score File Corrupted                 | `high_scores.json` exists but contains invalid JSON      | Error handled gracefully (e.g., exception caught), `self.high_scores` initialized as an empty list. No crash.                                                                                                                                     | Error Handling |
-| Missing Font Files (Fallback test)        | Default system font specified in `Scoreboard` is missing | Scoreboard initializes using the fallback system font without crashing.                                                                                                                                                                           | Error Handling |
-| Pygame Initialization Fails (Conceptual)  | e.g., Display system unavailable                         | Program exits gracefully with an error message (or handles failure appropriately based on `pygame.init()` return values).                                                                                                                         | Error Handling |
-#### Test Results
 
+| Test Case                                     | Verification Focus                             | Expected Output                                                                                                                                                                         | Test Type        |
+| :-------------------------------------------- | :--------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------- |
+| Standard Initialization (Pygame Modules)      | `Game()` called                                | `pygame.init()`, `pygame.mixer.init()`, `pygame.font.init()` are called exactly once.                                                                                                   | Mock Check       |
+| Standard Initialization (Screen & Caption)    | `Game()` called                                | `pygame.display.set_mode` called with `(WINDOW_WIDTH, WINDOW_HEIGHT)`. `pygame.display.set_caption` called with `WINDOW_TITLE`. `self.screen` is assigned the result of `set_mode`.     | Mock Check       |
+| Standard Initialization (Clock & Start Time)  | `Game()` called                                | `self.clock` is assigned `pygame.time.Clock`. `self.start_time` is assigned the result of `pygame.time.get_ticks()`.                                                                    | Attribute Check  |
+| Attribute Value Checks (Flags, Name)          | `Game()` called                                | `self.running` is True, `self.game_over` is False, `self.entering_name` is False, `self.displaying_scores` is False, `self.score_eligible_for_save` is False, `self.player_name` is "". | Attribute Check  |
+| Component Instantiation (Llama, Scoreboard)   | `Game()` called                                | `Llama` class is instantiated. `Scoreboard` class is instantiated. `self.llama` and `self.scoreboard` hold the respective instances.                                                    | Mock Check/Attr  |
+| Sprite Group Setup                            | `Game()` called                                | `self.all_sprites` and `self.obstacles` are instances of `pygame.sprite.Group`. Mock `Llama` instance is added to `self.all_sprites`.                                                   | Type/State Check |
+| Ground Image Load Success                     | `pygame.image.load` succeeds                   | `pygame.image.load` called with `constants.GROUND_IMAGE`. `convert()` is called on the result. `self.ground_image` holds the result of `convert()`.                                     | Mock/Attr Check  |
+| Ground Image Load Failure (pygame.error)      | `pygame.image.load` raises `pygame.error`      | Exception is caught, `self.ground_image` is set to `None`.                                                                                                                              | Error Handling   |
+| Ground Image Load Failure (FileNotFoundError) | `pygame.image.load` raises `FileNotFoundError` | Exception is caught, `self.ground_image` is set to `None`.                                                                                                                              | Error Handling   |
+| Obstacle Timer Set                            | `Game()` called                                | `pygame.time.set_timer` called once with `constants.OBSTACLE_SPAWN_EVENT` and `constants.OBSTACLE_CREATION_INTERVAL`.                                                                   | Mock Check       |
+| High Score Load Called                        | `Game()` called                                | Instance's `_load_high_scores()` method is called exactly once.                                                                                                                         | Mock Check       |
+| Font Object Creation                          | `Game()` called                                | `pygame.font.SysFont` is called for each font (`score_font`, `game_over_font`, `button_font`, `input_font`) with `(None, expected_size)`. Corresponding attributes are set.             | Mock Check       |
+
+#### Test Results
+##### Test 01
+![[Test Results - game_init - test_01.html]]
+Passed 12/12 tests
 ### Run Game Loop (`run`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Run Game Loop (`run`)]]
 #### Test Plan
-| Test Case                      | Input / Conditions                              | Expected Output                                                                                                                            | Test Type  |
-| :----------------------------- | :---------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
-| Normal Execution               | Game started, `self.running` is True          | Loop continues executing, calling `_handle_events`, `_update`, `_draw`, `clock.tick` repeatedly.                                           | Expected   |
-| Game Quit via Event            | `_handle_events` sets `self.running` to False | Loop terminates after the current iteration completes. `pygame.quit()` is called.                                                        | Expected   |
-| Game Over State Reached        | `_update` sets `self.game_over` to True       | Loop continues running, but `_update` logic might be skipped. `_draw` calls `_draw_high_scores_screen` (or relevant game over drawing logic). | Expected   |
-| Clock Ticking                  | Loop running                                    | Game runs at approximately the target FPS (visual check, or timing check).                                                                 | Expected   |
-| Exception within Loop (e.g., `_update`) | An uncaught exception occurs in a sub-method | Loop terminates abruptly, program likely crashes without calling `pygame.quit()` unless wrapped in a global try-except (not typical). | Error Case |
+| Test Case                               | Input / Conditions                            | Expected Output                                                                                                                               | Test Type  |
+| :-------------------------------------- | :-------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- | :--------- |
+| Normal Execution                        | Game started, `self.running` is True          | Loop continues executing, calling `_handle_events`, `_update`, `_draw`, `clock.tick` repeatedly.                                              | Expected   |
+| Game Quit via Event                     | `_handle_events` sets `self.running` to False | Loop terminates after the current iteration completes. `pygame.quit()` is called.                                                             | Expected   |
+| Game Over State Reached                 | `_update` sets `self.game_over` to True       | Loop continues running, but `_update` logic might be skipped. `_draw` calls `_draw_high_scores_screen` (or relevant game over drawing logic). | Expected   |
+| Clock Ticking                           | Loop running                                  | Game runs at approximately the target FPS (visual check, or timing check).                                                                    | Expected   |
+| Exception within Loop (e.g., `_update`) | An uncaught exception occurs in a sub-method  | Loop terminates abruptly, program likely crashes without calling `pygame.quit()` unless wrapped in a global try-except (not typical).         | Error Case |
 #### Test Results
 
 ### Handle Events (`_handle_events`)
