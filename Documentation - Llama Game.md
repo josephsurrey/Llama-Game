@@ -186,9 +186,10 @@ Passed 4/4 tests
 | Unexpected Key Press (Game Over - Standard) | Any key other than R, Q, Y, N pressed while game over             | No action.                                                                                                        | Unexpected Input |
 | Unexpected Key Press (Entering Name)        | Any key other than alphanum, space, backspace, enter pressed      | No action / character not added.                                                                                  | Unexpected Input |
 | Unexpected Key Press (Showing Scores)       | Any key other than ESC pressed while showing scores               | No action.                                                                                                        | Unexpected Input |
-| Multiple Events Per Frame                   | e.g., Key press and Obstacle Spawn event in same frame            | Both events processed correctly in sequence within the loop iteration.                                            | Edge Case        |
+| Multiple Events Per ![[Test Results - game__handle_events - test_01.html]]Frame                   | e.g., Key press and Obstacle Spawn event in same frame            | Both events processed correctly in sequence within the loop iteration.                                            | Edge Case        |
 #### Test Results
-
+![[Test Results - game__handle_events - test_01.html]]
+Passed 25/25 tests
 ### Update Game State (`_update`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Update Game State (`_update`)]]
