@@ -103,7 +103,68 @@ class Game:
         sys.exit()
 
     def _handle_events(self):
-        pass
+        # Check for any user actions or game events
+        for event in pygame.event.get():
+            # Check if the user tried to close the game window
+            if event.type == pygame.QUIT:
+                self.running = False
+
+            # Events during gameplay
+            if (not self.game_over and not self.entering_name and
+                    not self.displaying_scores):
+                # Check if it's time to create new obstacle
+                if event.type == constants.OBSTACLE_SPAWN_EVENT:
+                    self._spawn_obstacle()
+                # Check if the user pressed the jump key
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
+                        self.llama.jump()
+
+            # Events during game over
+            elif (self.game_over and not self.entering_name and
+                  not self.displaying_scores):
+                if event.type == pygame.KEYDOWN:
+                    # Check if the user pressed the restart key
+                    if event.key == pygame.K_r:
+                        self._reset_game()
+                    # Check if the user pressed the quit key
+                    elif event.key == pygame.K_q:
+                        self.running = False
+                    # Check if score is eligible and user confirms save
+                    elif (event.key == pygame.K_y and
+                          self.score_eligible_for_save):
+                        self.entering_name = True
+                        self.player_name = ""
+                    # Check if score is eligible and user declines save
+                    elif event.key == pygame.K_n and self.score_eligible_for_save:
+                        self.score_eligible_for_save = False
+
+
+            # Events while entering name
+            elif self.entering_name:
+                if event.type == pygame.KEYDOWN:
+                    # Listen for Backspace key to delete characters
+                    if event.key == pygame.K_BACKSPACE:
+                        self.player_name = self.player_name[:-1]
+                    # Listen for Enter key to save name
+                    elif event.key == pygame.K_RETURN:
+                        if self.player_name:
+                            self._add_high_score(self.player_name,
+                                                 self.scoreboard.score)
+                        self.entering_name = False
+                        self.score_eligible_for_save = False
+                    # Listen for key presses
+                    elif event.unicode.isalnum() or event.unicode in [' ']:
+                        # Limit name length
+                        if len(self.player_name) < 6:
+                            self.player_name += event.unicode
+
+            # Events while displaying scores
+            elif self.displaying_scores:
+                if event.type == pygame.KEYDOWN:
+                    # Listen for Escape key press to return
+                    if event.key == pygame.K_ESCAPE:
+                        self.displaying_scores = False
 
     def _update(self):
         pass
