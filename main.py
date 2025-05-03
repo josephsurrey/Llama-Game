@@ -83,6 +83,7 @@ class Game:
         self.game_over_font = pygame.font.SysFont(None, 74)
         self.button_font = pygame.font.SysFont(None, 24)
         self.input_font = pygame.font.SysFont(None, 36)
+        self.final_score_font = pygame.font.SysFont(None, 48)
 
     def run(self):
         # Begin main loop
@@ -177,7 +178,52 @@ class Game:
             self._check_collisions()
 
     def _draw(self):
-        pass
+        # Draw background
+        self.screen.fill(constants.WHITE)
+
+        # Draw gameplay elements
+        if not self.displaying_scores and not self.entering_name:
+            # Draw the ground
+            if self.ground_image:
+                (self.screen.blit
+                 (self.ground_image, (0, constants.WINDOW_HEIGHT -
+                                      self.ground_image.get_height())))
+            else:
+                # Draw solid ground rectangle
+                ground_rect = pygame.Rect(0, constants.GROUND_Y,
+                                          constants.WINDOW_WIDTH,
+                                          constants.WINDOW_HEIGHT
+                                          - constants.GROUND_Y)
+                pygame.draw.rect(self.screen, constants.GREY, ground_rect)
+
+            # Draw all active game objects
+            self.all_sprites.draw(self.screen)
+            # Draw score
+            self.scoreboard.draw(self.screen)
+
+        # Draw game over elements
+        if self.game_over and not self.entering_name and not self.displaying_scores:
+            # Draw "Game Over" text
+            go_text_surf = self.game_over_font.render("GAME OVER", True, constants.BLACK)
+            go_text_rect = go_text_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2 - 50))
+            self.screen.blit(go_text_surf, go_text_rect)
+
+            # Draw the final score text
+            final_score_surf = self.final_score_font.render(f"Final Score: {self.scoreboard.score}", True, constants.BLACK)
+            final_score_rect = final_score_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2))
+            self.screen.blit(final_score_surf, final_score_rect)
+
+            # If score is eligible, draw "Save Score? (Y/N)" prompt
+            if self.score_eligible_for_save:
+                 save_prompt_surf = self.final_score_font.render("High Score! Save? (Y/N)", True, constants.RED)
+                 save_prompt_rect = save_prompt_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2 + 40))
+                 self.screen.blit(save_prompt_surf, save_prompt_rect)
+
+            # Draw the "Restart/Quit" instructions
+            instr_surf = self.final_score_font.render("Press 'R' to Restart or 'Q' to Quit", True, constants.BLACK)
+            instr_rect = instr_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2 + 120))
+            self.screen.blit(instr_surf, instr_rect)
+
 
     def _spawn_obstacle(self):
         pass
