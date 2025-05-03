@@ -294,7 +294,18 @@ class Game:
         self.obstacles.add(obstacle)
 
     def _check_collisions(self):
-        pass
+        # Check if the player object is touching an obstacle
+        collisions = pygame.sprite.spritecollide(
+            self.llama, self.obstacles, False, pygame.sprite.collide_mask
+        )
+        # If a collision happened, set game state to 'game over'
+        if collisions:
+            self.game_over = True
+            self.score_eligible_for_save = (
+                self._check_score_eligible()
+            )  # Check eligibility upon game over
+            # Stop obstacle timer
+            pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT, 0)
 
     def _reset_game(self):
         pass
