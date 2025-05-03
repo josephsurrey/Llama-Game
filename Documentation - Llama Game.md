@@ -226,10 +226,16 @@ Passed 9/9 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Spawn Obstacle (`_spawn_obstacle`)]]
 #### Test Plan
+### Spawn Obstacle (`_spawn_obstacle`)
+#### Component Planning
+![[Game Class - Llama Game Decomposition#Spawn Obstacle (`_spawn_obstacle`)]]
+#### Test Plan
 | Test Case                        | Input / Conditions               | Expected Output                                                                                    | Test Type  |
 | :------------------------------- | :------------------------------- | :------------------------------------------------------------------------------------------------- | :--------- |
 | Standard Spawn                   | Called from event handler        | New `Obstacle` instance created. Instance added to `self.all_sprites` and `self.obstacles` groups. | Expected   |
 #### Test Results
+![[Test Results - game__spawn_obstacle.html]]
+Passed 1/1 tests
 
 ### Check Collisions (`_check_collisions`)
 #### Component Planning
