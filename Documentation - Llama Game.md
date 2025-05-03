@@ -210,18 +210,18 @@ Passed 6/6
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Draw Frame (`_draw`)]]
 #### Test Plan
-| Test Case                    | Input / Conditions                             | Expected Output                                                                                              | Test Type  |
-| :--------------------------- | :--------------------------------------------- | :----------------------------------------------------------------------------------------------------------- | :--------- |
-| Draw While Playing           | `game_over` is False, not entering/showing | Background, Ground, Sprites (`all_sprites.draw`), Scoreboard are drawn.                                      | Expected   |
-| Draw While Game Over         | `game_over` is True, not entering/showing    | Background, Ground, Sprites (static), Scoreboard, Game Over text, Final Score, Instructions, View Scores button drawn. | Expected   |
-| Draw Game Over (Eligible)    | `game_over` is True, score eligible          | Includes the "Save Score? (Y/N)" prompt in addition to standard Game Over elements.                           | Expected   |
-| Draw Entering Name           | State is `entering_name`                       | Background, Static Sprites, "Enter Name:" prompt, current typed name are drawn.                              | Expected   |
-| Draw Showing Scores          | State is `showing_scores`                      | Calls `_draw_high_scores_screen()` method.                                                                   | Expected   |
-| Screen Update Called         | After all drawing elements                   | `pygame.display.flip()` is called to make drawing visible.                                                   | Expected   |
-| Empty Sprite Group           | `all_sprites` is empty                       | `all_sprites.draw()` executes without error.                                                                 | Edge Case  |
-| Font Rendering Fails (Conceptual) | Font object is None or invalid               | Relevant `font.render()` call raises an exception (should be handled, or will crash).                         | Error Case |
+| Test Case                         | Input / Conditions                                                         | Expected Output / Checks                                                                                                                                                     | Test Type        |
+| :-------------------------------- | :------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------- |
+| Draw While Playing (Ground Image) | `game_over`, `entering_name`, `displaying_scores` all False. `ground_image` exists. | `screen.fill`, `screen.blit` (ground), `all_sprites.draw`, `scoreboard.draw` called. `font.render` for Game Over text *not* called.                                         | Expected         |
+| Draw While Playing (No Ground Image) | `game_over`, `entering_name`, `displaying_scores` all False. `ground_image` is None. | `screen.fill`, `pygame.draw.rect` (fallback ground), `all_sprites.draw`, `scoreboard.draw` called. `font.render` for Game Over text *not* called.                        | Edge/Error       |
+| Draw Game Over (Not Eligible)     | `game_over` True, `entering_name` False, `displaying_scores` False, `score_eligible_for_save` False. `ground_image` exists. | `screen.fill`, `screen.blit` (ground), `all_sprites.draw`, `scoreboard.draw` called. Game Over, Final Score, Instructions text rendered and blitted. "Save Score?" prompt *not* rendered. | Expected         |
+| Draw Game Over (Eligible)         | `game_over` True, `entering_name` False, `displaying_scores` False, `score_eligible_for_save` True. `ground_image` exists. | `screen.fill`, `screen.blit` (ground), `all_sprites.draw`, `scoreboard.draw` called. Game Over, Final Score, "Save Score? (Y/N)", Instructions text rendered and blitted.            | Expected         |
+| Draw Game Over (No Ground Image)  | `game_over` True, `entering_name` False, `displaying_scores` False, `score_eligible_for_save` False. `ground_image` is None. | `screen.fill`, `pygame.draw.rect` (fallback ground), `all_sprites.draw`, `scoreboard.draw` called. Game Over, Final Score, Instructions text rendered and blitted.                    | Edge/Error       |
+| State: Entering Name              | `entering_name` True. Others False.                                        | `screen.fill` called. Gameplay/Game Over drawing block skipped (`screen.blit` for ground, `all_sprites.draw`, `scoreboard.draw`, `font.render` for Game Over not called).       | State Check
 #### Test Results
-
+##### Test 01
+![[Test Results - game__draw - test_01.html]]
+Passed 9/9 tests
 ### Spawn Obstacle (`_spawn_obstacle`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Spawn Obstacle (`_spawn_obstacle`)]]
