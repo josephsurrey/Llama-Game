@@ -308,7 +308,35 @@ class Game:
             pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT, 0)
 
     def _reset_game(self):
-        pass
+        # Set the game state back to playing
+        self.game_over = False
+        self.entering_name = False
+        self.displaying_scores = False
+        self.score_eligible_for_save = False
+
+        # Reset the start time for the new game
+        self.start_time_ticks = pygame.time.get_ticks()
+
+        # Reset the scoreboard
+        self.scoreboard.reset()
+
+        # Remove all obstacles
+        self.obstacles.empty()
+
+        self.all_sprites.empty()
+        self.all_sprites.add(self.llama)
+
+        # Put the player back in the starting position with reset physics.
+        self.llama.reset()  # Assumes llama object exists
+
+        # Reset name input variables
+        self.player_name = ""
+
+        # Restart obstacle timer
+        pygame.time.set_timer(
+            constants.OBSTACLE_SPAWN_EVENT,
+            constants.OBSTACLE_CREATION_INTERVAL,
+        )
 
     def _load_high_scores(self):
         pass
