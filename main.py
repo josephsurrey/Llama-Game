@@ -18,7 +18,8 @@ class Game:
 
         # Set the display mode with defined constants for width and height
         self.screen = pygame.display.set_mode(
-            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
+            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)
+        )
         # Set the window caption
         pygame.display.set_caption(constants.WINDOW_TITLE)
 
@@ -57,20 +58,21 @@ class Game:
             # fall back to solid colour ground
             print(
                 f"Error loading ground image:"
-                f" {constants.GROUND_IMAGE} - {e}")
+                f" {constants.GROUND_IMAGE} - {e}"
+            )
             print("Falling back to solid color ground.")
             self.ground_image = None
         except FileNotFoundError:
             # If file isn't found, fall back to solid colour ground
-            print(
-                f"Ground image file not found:"
-                f" {constants.GROUND_IMAGE}")
+            print(f"Ground image file not found:" f" {constants.GROUND_IMAGE}")
             print("Falling back to solid color ground.")
             self.ground_image = None
 
         # Set timer for obstacle spawning
-        pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT,
-                              constants.OBSTACLE_CREATION_INTERVAL)
+        pygame.time.set_timer(
+            constants.OBSTACLE_SPAWN_EVENT,
+            constants.OBSTACLE_CREATION_INTERVAL,
+        )
 
         # Load high scores
         self._load_high_scores()
@@ -111,8 +113,11 @@ class Game:
                 self.running = False
 
             # Events during gameplay
-            if (not self.game_over and not self.entering_name and
-                    not self.displaying_scores):
+            if (
+                not self.game_over
+                and not self.entering_name
+                and not self.displaying_scores
+            ):
                 # Check if it's time to create new obstacle
                 if event.type == constants.OBSTACLE_SPAWN_EVENT:
                     self._spawn_obstacle()
@@ -122,8 +127,11 @@ class Game:
                         self.llama.jump()
 
             # Events during game over
-            elif (self.game_over and not self.entering_name and
-                  not self.displaying_scores):
+            elif (
+                self.game_over
+                and not self.entering_name
+                and not self.displaying_scores
+            ):
                 if event.type == pygame.KEYDOWN:
                     # Check if the user pressed the restart key
                     if event.key == pygame.K_r:
@@ -132,14 +140,18 @@ class Game:
                     elif event.key == pygame.K_q:
                         self.running = False
                     # Check if score is eligible and user confirms save
-                    elif (event.key == pygame.K_y and
-                          self.score_eligible_for_save):
+                    elif (
+                        event.key == pygame.K_y
+                        and self.score_eligible_for_save
+                    ):
                         self.entering_name = True
                         self.player_name = ""
                     # Check if score is eligible and user declines save
-                    elif event.key == pygame.K_n and self.score_eligible_for_save:
+                    elif (
+                        event.key == pygame.K_n
+                        and self.score_eligible_for_save
+                    ):
                         self.score_eligible_for_save = False
-
 
             # Events while entering name
             elif self.entering_name:
@@ -150,12 +162,13 @@ class Game:
                     # Listen for Enter key to save name
                     elif event.key == pygame.K_RETURN:
                         if self.player_name:
-                            self._add_high_score(self.player_name,
-                                                 self.scoreboard.score)
+                            self._add_high_score(
+                                self.player_name, self.scoreboard.score
+                            )
                         self.entering_name = False
                         self.score_eligible_for_save = False
                     # Listen for key presses
-                    elif event.unicode.isalnum() or event.unicode in [' ']:
+                    elif event.unicode.isalnum() or event.unicode in [" "]:
                         # Limit name length
                         if len(self.player_name) < 6:
                             self.player_name += event.unicode
@@ -169,7 +182,11 @@ class Game:
 
     def _update(self):
         # Check if the game is playing
-        if not self.game_over and not self.entering_name and not self.displaying_scores:
+        if (
+            not self.game_over
+            and not self.entering_name
+            and not self.displaying_scores
+        ):
             # Updates all game objects
             self.all_sprites.update()
             # Update the score based on  time
@@ -185,15 +202,24 @@ class Game:
         if not self.displaying_scores and not self.entering_name:
             # Draw the ground
             if self.ground_image:
-                (self.screen.blit
-                 (self.ground_image, (0, constants.WINDOW_HEIGHT -
-                                      self.ground_image.get_height())))
+                (
+                    self.screen.blit(
+                        self.ground_image,
+                        (
+                            0,
+                            constants.WINDOW_HEIGHT
+                            - self.ground_image.get_height(),
+                        ),
+                    )
+                )
             else:
                 # Draw solid ground rectangle
-                ground_rect = pygame.Rect(0, constants.GROUND_Y,
-                                          constants.WINDOW_WIDTH,
-                                          constants.WINDOW_HEIGHT
-                                          - constants.GROUND_Y)
+                ground_rect = pygame.Rect(
+                    0,
+                    constants.GROUND_Y,
+                    constants.WINDOW_WIDTH,
+                    constants.WINDOW_HEIGHT - constants.GROUND_Y,
+                )
                 pygame.draw.rect(self.screen, constants.GREY, ground_rect)
 
             # Draw all active game objects
@@ -202,28 +228,59 @@ class Game:
             self.scoreboard.draw(self.screen)
 
         # Draw game over elements
-        if self.game_over and not self.entering_name and not self.displaying_scores:
+        if (
+            self.game_over
+            and not self.entering_name
+            and not self.displaying_scores
+        ):
             # Draw "Game Over" text
-            go_text_surf = self.game_over_font.render("GAME OVER", True, constants.BLACK)
-            go_text_rect = go_text_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2 - 50))
+            go_text_surf = self.game_over_font.render(
+                "GAME OVER", True, constants.BLACK
+            )
+            go_text_rect = go_text_surf.get_rect(
+                center=(
+                    constants.WINDOW_WIDTH // 2,
+                    constants.WINDOW_HEIGHT // 2 - 50,
+                )
+            )
             self.screen.blit(go_text_surf, go_text_rect)
 
             # Draw the final score text
-            final_score_surf = self.final_score_font.render(f"Final Score: {self.scoreboard.score}", True, constants.BLACK)
-            final_score_rect = final_score_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2))
+            final_score_surf = self.final_score_font.render(
+                f"Final Score: {self.scoreboard.score}", True, constants.BLACK
+            )
+            final_score_rect = final_score_surf.get_rect(
+                center=(
+                    constants.WINDOW_WIDTH // 2,
+                    constants.WINDOW_HEIGHT // 2,
+                )
+            )
             self.screen.blit(final_score_surf, final_score_rect)
 
             # If score is eligible, draw "Save Score? (Y/N)" prompt
             if self.score_eligible_for_save:
-                 save_prompt_surf = self.final_score_font.render("High Score! Save? (Y/N)", True, constants.RED)
-                 save_prompt_rect = save_prompt_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2 + 40))
-                 self.screen.blit(save_prompt_surf, save_prompt_rect)
+                save_prompt_surf = self.final_score_font.render(
+                    "High Score! Save? (Y/N)", True, constants.RED
+                )
+                save_prompt_rect = save_prompt_surf.get_rect(
+                    center=(
+                        constants.WINDOW_WIDTH // 2,
+                        constants.WINDOW_HEIGHT // 2 + 40,
+                    )
+                )
+                self.screen.blit(save_prompt_surf, save_prompt_rect)
 
             # Draw the "Restart/Quit" instructions
-            instr_surf = self.final_score_font.render("Press 'R' to Restart or 'Q' to Quit", True, constants.BLACK)
-            instr_rect = instr_surf.get_rect(center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2 + 120))
+            instr_surf = self.final_score_font.render(
+                "Press 'R' to Restart or 'Q' to Quit", True, constants.BLACK
+            )
+            instr_rect = instr_surf.get_rect(
+                center=(
+                    constants.WINDOW_WIDTH // 2,
+                    constants.WINDOW_HEIGHT // 2 + 120,
+                )
+            )
             self.screen.blit(instr_surf, instr_rect)
-
 
     def _spawn_obstacle(self):
         pass
