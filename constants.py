@@ -1,22 +1,22 @@
 import pygame
 
-WINDOW_WIDTH = 900 # Width of the game window
-WINDOW_HEIGHT = 400 # Height of the game window
-WINDOW_TITLE = "Llama Game - Joseph Surrey" # Title of game window
-FPS = 30 # Frames per second
+WINDOW_WIDTH = 900  # Width of the game window
+WINDOW_HEIGHT = 400  # Height of the game window
+WINDOW_TITLE = "Llama Game - Joseph Surrey"  # Title of game window
+FPS = 30  # Frames per second
 
 # Custom pygame event
 OBSTACLE_SPAWN_EVENT = pygame.USEREVENT + 1
 
-GROUND_Y = 100 # Y position of the ground
+GROUND_Y = 100  # Y position of the ground
 
-GRAVITY = 0 # Acceleration due to gravity
-JUMP_SPEED = 0 # Speed at which the player jumps
+GRAVITY = 0  # Acceleration due to gravity
+JUMP_SPEED = 0  # Speed at which the player jumps
 
-PLAYER_HORIZONTAL_POSITION = 100 # Starting horizontal position of the player
+PLAYER_HORIZONTAL_POSITION = 100  # Starting horizontal position of the player
 
-OBSTACLE_INITIAL_SPEED = 0 # Initial speed of obstacles
-OBSTACLE_CREATION_INTERVAL = 2000 # Time interval between obstacle creations
+OBSTACLE_INITIAL_SPEED = 0  # Initial speed of obstacles
+OBSTACLE_CREATION_INTERVAL = 2000  # Time interval between obstacle creations
 # (in milliseconds)
 
 # Standard colour values

@@ -144,7 +144,7 @@ Passed 12/12 tests
 ### Run Game Loop (`run`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Run Game Loop (`run`)]]
-#### Test Plan![[Test Results - game_run - test_01.html]]
+#### Test Plan
 
 | Test Case                    | Input / Conditions                                                 | Expected Output                                                                                                                                         | Test Type  |
 | :--------------------------- | :----------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------- |
@@ -241,13 +241,17 @@ Passed 1/1 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Check Collisions (`_check_collisions`)]]
 #### Test Plan
-| Test Case                    | Input / Conditions                             | Expected Output                                                                                               | Test Type  |
-| :--------------------------- | :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------ | :--------- |
-| No Collision                 | Llama sprite does not overlap obstacle sprites | `pygame.sprite.spritecollide` returns empty list. `self.game_over` remains False.                             | Expected   |
-| Collision Occurs             | Llama sprite mask overlaps an obstacle mask    | `pygame.sprite.spritecollide` returns list containing the collided obstacle(s). `self.game_over` set to True. | Expected   |
-| Multiple Obstacles Collision | Llama overlaps two obstacles simultaneously    | Collision detected, `self.game_over` set to True. (Result is same as single collision).                       | Edge Case  |
-| No Obstacles Present         | `self.obstacles` group is empty                | `pygame.sprite.spritecollide` returns empty list. No error.                                                   | Edge Case  |
+
+| Test Case                             | Input / Conditions                                                                    | Expected Output / Checks                                                                                                                                                                                           | Test Type      |
+| :------------------------------------ | :------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------- |
+| No Collision                          | `pygame.sprite.spritecollide` returns empty list.                                     | `game_over` remains `False`. `_check_score_eligible` is *not* called. `pygame.time.set_timer` is *not* called with `(OBSTACLE_SPAWN_EVENT, 0)`.                                                                    | Expected       |
+| Collision Occurs (Score Eligible)     | `spritecollide` returns non-empty list. Mock `_check_score_eligible` returns `True`.  | `game_over` becomes `True`. `_check_score_eligible` is called once. `score_eligible_for_save` becomes `True`. `pygame.time.set_timer` is called once with `(OBSTACLE_SPAWN_EVENT, 0)`.                             | Expected/Mock  |
+| Collision Occurs (Score Not Eligible) | `spritecollide` returns non-empty list. Mock `_check_score_eligible` returns `False`. | `game_over` becomes `True`. `_check_score_eligible` is called once. `score_eligible_for_save` becomes `False`. `pygame.time.set_timer` is called once with `(OBSTACLE_SPAWN_EVENT, 0)`.                            | Expected/Mock  |
+| No Obstacles Present                  | `self.obstacles` group is empty.                                                      | `pygame.sprite.spritecollide` returns empty list. `game_over` remains `False`. `_check_score_eligible` is *not* called. `pygame.time.set_timer` is *not* called with `(OBSTACLE_SPAWN_EVENT, 0)`. No error occurs. | Edge Case/Mock |
 #### Test Results
+##### Test 01
+![[Test Results - game__check_collisions - test_01.html]]
+Passed 4/4 tests
 
 ### Reset Game (`_reset_game`)
 #### Component Planning
