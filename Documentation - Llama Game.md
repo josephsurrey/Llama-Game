@@ -194,16 +194,18 @@ Passed 25/25 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Update Game State (`_update`)]]
 #### Test Plan
-| Test Case                       | Input / Conditions                       | Expected Output                                                                                             | Test Type  |
-| :------------------------------ | :--------------------------------------- | :---------------------------------------------------------------------------------------------------------- | :--------- |
-| Update While Playing            | `game_over` is False                     | `all_sprites.update()`, `scoreboard.update()`, `_check_collisions()` are called.                            | Expected   |
-| Update While Game Over          | `game_over` is True                      | Methods inside the `if not self.game_over:` block are skipped (sprites don't update, score doesn't increase). | Expected   |
-| Collision Detected During Update| `_check_collisions()` returns collision  | `self.game_over` is set to True within the same update cycle.                                               | Expected   |
-| Score Increments Over Time      | Multiple `_update` calls while playing | Scoreboard value increases monotonically based on elapsed time.                                             | Expected   |
-| Difficulty Increase (Optional)  | Game played for extended period        | Obstacle speed (or other difficulty factor) increases gradually as implemented.                             | Expected   |
-| No Sprites Present              | `all_sprites` group is empty             | `all_sprites.update()` runs without error.                                                                  | Edge Case  |
+| Test Case                            | Input / Conditions                                              | Expected Output                                                                                                  | Test Type       |
+| :----------------------------------- | :-------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- | :-------------- |
+| Update While Playing                 | `game_over`, `entering_name`, `displaying_scores` are all False | `all_sprites.update()`, `scoreboard.update()`, `_check_collisions()` are called.                                 | Mock Check      |
+| Update While Game Over               | `game_over` is True                                             | `all_sprites.update()`, `scoreboard.update()`, `_check_collisions()` are *not* called.                           | Mock Check      |
+| Update While Entering Name           | `entering_name` is True                                         | `all_sprites.update()`, `scoreboard.update()`, `_check_collisions()` are *not* called.                           | Mock Check      |
+| Update While Displaying Scores       | `displaying_scores` is True                                     | `all_sprites.update()`, `scoreboard.update()`, `_check_collisions()` are *not* called.                           | Mock Check      |
+| No Sprites Present                   | `all_sprites` group is empty, game is playing                   | `all_sprites.update()` is called without error. `scoreboard.update()` and `_check_collisions()` are also called. | Edge/Mock Check |
+| Verify `scoreboard.update` Arguments | `game_over`, `entering_name`, `displaying_scores` are all False | `scoreboard.update()` called with `pygame.time.get_ticks()` result and `game.start_time`.                        | Mock Check      |
 #### Test Results
-
+##### Test 01
+![[Test Results - game__update - test_01.html]]
+Passed 6/6
 ### Draw Frame (`_draw`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Draw Frame (`_draw`)]]
