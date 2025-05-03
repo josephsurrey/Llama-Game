@@ -282,8 +282,16 @@ class Game:
             )
             self.screen.blit(instr_surf, instr_rect)
 
+        # Show final image
+        pygame.display.flip()
+
     def _spawn_obstacle(self):
-        pass
+        # Create a new obstacle object.
+        obstacle = Obstacle(constants.OBSTACLE_INITIAL_SPEED)
+        # Add the new obstacle to the group of all active game objects.
+        self.all_sprites.add(obstacle)
+        # Add the new obstacle specifically to the group of obstacles.
+        self.obstacles.add(obstacle)
 
     def _check_collisions(self):
         pass
@@ -322,7 +330,7 @@ class Llama(pygame.sprite.Sprite):
 
 
 class Obstacle(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, speed):
         super().__init__()
 
     def update(self):
