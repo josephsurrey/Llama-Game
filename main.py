@@ -629,7 +629,11 @@ class Scoreboard:
         screen.blit(self.image, self.rect)
 
     def reset(self):
-        pass
+        # Reset score value to zero
+        self.score = 0
+        # Re-render the score text for "Score: 0"
+        self.image = self.font.render(f"Score: {self.score}", True, self.color)
+        self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
 
 if __name__ == "__main__":
