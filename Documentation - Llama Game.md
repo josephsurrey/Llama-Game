@@ -492,12 +492,17 @@ Passed 5/5 tests
 #### Component Planning
 ![[Scoreboard Class - Llama Game Decomposition#Setup Scoreboard (`__init__`)]]
 #### Test Plan
-| Test Case                       | Input / Conditions                                     | Expected Output                                                                                                   | Test Type      |
-| :------------------------------ | :----------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- | :------------- |
-| Standard Initialization         | `Scoreboard()` called (with default or custom args)    | `self.x`, `self.y`, `self.color` stored. `self.font` is a valid Font object. `self.score` is 0. `self.image` rendered. | Expected       |
-| Initial Render                  | `Scoreboard()` called                                  | `self.image` contains rendered text "Score: 0". `self.rect` is positioned at (`self.x`, `self.y`).                  | Expected       |
-| Font Loading Fails (Fallback)   | Primary font unavailable                             | `self.font` uses the fallback system font. Initialization completes without error.                                 | Error Handling |
+
+| Test Case                        | Input / Conditions                                 | Expected Output / Checks                                                                                       | Test Type            |
+| :------------------------------- | :------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- | :------------------- |
+| Initialization (Defaults)        | `Scoreboard()` called                              | `self.x`=10, `self.y`=10, `self.color`=constants.BLACK, `self.score`=0. `pygame.font.SysFont` called with `(None, 36)`. `self.font` is a Font object. `_render_text` called once. | Attribute/Mock Check |
+| Initialization (Custom Args)     | `Scoreboard(x=50, y=60, font_size=48, color=RED)` | `self.x`=50, `self.y`=60, `self.color`=constants.RED, `self.score`=0. `pygame.font.SysFont` called with `(None, 48)`. `self.font` is a Font object. `_render_text` called once. | Attribute/Mock Check |
+| Font Object Creation             | `Scoreboard()` called                              | `pygame.font.SysFont` called once with `(None, 36)`. `self.font` holds the returned Font object.              | Mock Check           |
+| `_render_text` Call Verification | `Scoreboard()` called                              | `self._render_text` method is called exactly once during initialization.                                         | Mock Check           |
 #### Test Results
+##### Test 01
+![[Test Results - scoreboard_init - test_01.html]]
+Passed 4/4 tests
 
 ### Update Score (`update`)
 #### Component Planning
