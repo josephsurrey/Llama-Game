@@ -1,8 +1,5 @@
 import sys
 import random
-import json
-import os
-from pathlib import Path
 import pygame
 
 import constants
@@ -30,9 +27,6 @@ class Game:
         # Set initial game states
         self.running = True
         self.game_over = False
-        self.entering_name = False
-        self.displaying_scores = False
-        self.score_eligible_for_save = False
 
         # Get start time
         self.start_time = pygame.time.get_ticks()
@@ -110,38 +104,12 @@ class Game:
             constants.OBSTACLE_CREATION_INTERVAL,
         )
 
-        # Load high scores file
-        self.high_score_file = "high_scores.json"
-
-        # Load high scores
-        self.high_scores = self._load_high_scores()
-
-        # Prepare variable for player name
-        self.player_name = ""
-
         # Define fonts
         self.score_font = pygame.font.SysFont(None, 36)
         self.game_over_font = pygame.font.SysFont(None, 74)
         self.instruction_font = pygame.font.SysFont(None, 36)
         self.button_font = pygame.font.SysFont(None, 24)
-        self.input_font = pygame.font.SysFont(None, 36)
-        self.final_score_font = pygame.font.SysFont(None, 48)
-        self.highscore_title_font = pygame.font.SysFont(None, 60)
-        self.highscore_entry_font = pygame.font.SysFont(None, 30)
 
-        # Define the area/text for the "View High Scores" button.
-        button_text_surf = self.button_font.render(
-            "View High Scores", True, constants.BLACK
-        )
-        button_width = button_text_surf.get_width() + 20  # Add padding
-        button_height = button_text_surf.get_height() + 10
-        button_x = (constants.WINDOW_WIDTH - button_width) // 2
-        button_y = (
-            constants.WINDOW_HEIGHT // 2 + 80
-        )  # Adjust position as needed
-        self.view_scores_button_rect = pygame.Rect(
-            button_x, button_y, button_width, button_height
-        )
 
     def run(self):
         # Begin main loop
@@ -169,11 +137,7 @@ class Game:
                 self.running = False
 
             # Events during gameplay
-            if (
-                not self.game_over
-                and not self.entering_name
-                and not self.displaying_scores
-            ):
+            if not self.game_over:
                 # Check if it's time to create new obstacle
                 if event.type == constants.OBSTACLE_SPAWN_EVENT:
                     self._spawn_obstacle()
@@ -183,11 +147,7 @@ class Game:
                         self.llama.jump()
 
             # Events during game over
-            elif (
-                self.game_over
-                and not self.entering_name
-                and not self.displaying_scores
-            ):
+            elif self.game_over:
                 if event.type == pygame.KEYDOWN:
                     # Check if the user pressed the restart key
                     if event.key == pygame.K_r:
@@ -195,54 +155,11 @@ class Game:
                     # Check if the user pressed the quit key
                     elif event.key == pygame.K_q:
                         self.running = False
-                    # Check if score is eligible and user confirms save
-                    elif (
-                        event.key == pygame.K_y
-                        and self.score_eligible_for_save
-                    ):
-                        self.entering_name = True
-                        self.player_name = ""
-                    # Check if score is eligible and user declines save
-                    elif (
-                        event.key == pygame.K_n
-                        and self.score_eligible_for_save
-                    ):
-                        self.score_eligible_for_save = False
 
-            # Events while entering name
-            elif self.entering_name:
-                if event.type == pygame.KEYDOWN:
-                    # Listen for Backspace key to delete characters
-                    if event.key == pygame.K_BACKSPACE:
-                        self.player_name = self.player_name[:-1]
-                    # Listen for Enter key to save name
-                    elif event.key == pygame.K_RETURN:
-                        if self.player_name:
-                            self._add_high_score(
-                                self.player_name, self.scoreboard.score
-                            )
-                        self.entering_name = False
-                        self.score_eligible_for_save = False
-                    # Listen for key presses
-                    elif event.unicode.isalnum() or event.unicode in [" "]:
-                        # Limit name length
-                        if len(self.player_name) < 6:
-                            self.player_name += event.unicode
-
-            # Events while displaying scores
-            elif self.displaying_scores:
-                if event.type == pygame.KEYDOWN:
-                    # Listen for Escape key press to return
-                    if event.key == pygame.K_ESCAPE:
-                        self.displaying_scores = False
 
     def _update(self):
         # Check if the game is playing
-        if (
-            not self.game_over
-            and not self.entering_name
-            and not self.displaying_scores
-        ):
+        if not self.game_over:
             # Updates all game objects
             self.all_sprites.update()
             # Update the score based on  time
@@ -255,34 +172,23 @@ class Game:
         self.screen.fill(constants.WHITE)
 
         # Draw gameplay elements
-        if not self.displaying_scores and not self.entering_name:
-            if self.scaled_ground_image:
-                scaled_width = self.scaled_ground_image.get_width()
-                draw_y = 0
+        if self.scaled_ground_image:
+            scaled_width = self.scaled_ground_image.get_width()
+            draw_y = 0
 
-                if scaled_width > 0:
-                    draw_x = 0
-                    while draw_x < constants.WINDOW_WIDTH:
-                        self.screen.blit(
-                            self.scaled_ground_image, (draw_x, draw_y)
-                        )
-                        draw_x += scaled_width
-                else:
-                    # Fallback if scaled_width is 0
-                    print(
-                        "Warning: Scaled ground image width is zero,"
-                        " drawing fallback."
+            if scaled_width > 0:
+                draw_x = 0
+                while draw_x < constants.WINDOW_WIDTH:
+                    self.screen.blit(
+                        self.scaled_ground_image, (draw_x, draw_y)
                     )
-                    ground_rect = pygame.Rect(
-                        0,
-                        constants.GROUND_Y,
-                        constants.WINDOW_WIDTH,
-                        constants.WINDOW_HEIGHT - constants.GROUND_Y,
-                    )
-                    pygame.draw.rect(self.screen, constants.GREY, ground_rect)
-
+                    draw_x += scaled_width
             else:
-                # Fallback: Draw solid ground rectangle if image failed to load
+                # Fallback if scaled_width is 0
+                print(
+                    "Warning: Scaled ground image width is zero,"
+                    " drawing fallback."
+                )
                 ground_rect = pygame.Rect(
                     0,
                     constants.GROUND_Y,
@@ -291,17 +197,23 @@ class Game:
                 )
                 pygame.draw.rect(self.screen, constants.GREY, ground_rect)
 
-            # Draw all active game objects
-            self.all_sprites.draw(self.screen)
-            # Draw score
-            self.scoreboard.draw(self.screen)
+        else:
+            # Fallback: Draw solid ground rectangle if image failed to load
+            ground_rect = pygame.Rect(
+                0,
+                constants.GROUND_Y,
+                constants.WINDOW_WIDTH,
+                constants.WINDOW_HEIGHT - constants.GROUND_Y,
+            )
+            pygame.draw.rect(self.screen, constants.GREY, ground_rect)
+
+        # Draw all active game objects
+        self.all_sprites.draw(self.screen)
+        # Draw score
+        self.scoreboard.draw(self.screen)
 
         # Draw game over elements
-        if (
-            self.game_over
-            and not self.entering_name
-            and not self.displaying_scores
-        ):
+        if self.game_over:
             # Draw "Game Over" text
             go_text_surf = self.game_over_font.render(
                 "GAME OVER", True, constants.BLACK
@@ -315,7 +227,7 @@ class Game:
             self.screen.blit(go_text_surf, go_text_rect)
 
             # Draw the final score text
-            final_score_surf = self.final_score_font.render(
+            final_score_surf = self.instruction_font.render( # Using instruction font size
                 f"Final Score: {self.scoreboard.score}", True, constants.BLACK
             )
             final_score_rect = final_score_surf.get_rect(
@@ -326,42 +238,15 @@ class Game:
             )
             self.screen.blit(final_score_surf, final_score_rect)
 
-            # If score is eligible, draw "Save Score? (Y/N)" prompt
-            if self.score_eligible_for_save:
-                save_prompt_surf = self.final_score_font.render(
-                    "High Score! Save? (Y/N)", True, constants.RED
-                )
-                save_prompt_rect = save_prompt_surf.get_rect(
-                    center=(
-                        constants.WINDOW_WIDTH // 2,
-                        constants.WINDOW_HEIGHT // 2 + 40,
-                    )
-                )
-                self.screen.blit(save_prompt_surf, save_prompt_rect)
-
-            # Draw the "View High Scores" button background and text
-            pygame.draw.rect(
-                self.screen,
-                constants.GREY,
-                self.view_scores_button_rect,
-                border_radius=5,
-            )
-            view_scores_text_surf = self.button_font.render(
-                "View High Scores", True, constants.BLACK
-            )
-            view_scores_text_rect = view_scores_text_surf.get_rect(
-                center=self.view_scores_button_rect.center
-            )
-            self.screen.blit(view_scores_text_surf, view_scores_text_rect)
 
             # Draw the "Restart/Quit" instructions
-            instr_surf = self.final_score_font.render(
+            instr_surf = self.instruction_font.render(
                 "Press 'R' to Restart or 'Q' to Quit", True, constants.BLACK
             )
             instr_rect = instr_surf.get_rect(
                 center=(
                     constants.WINDOW_WIDTH // 2,
-                    constants.WINDOW_HEIGHT // 2 + 120,
+                    constants.WINDOW_HEIGHT // 2 + 80, # Adjusted position
                 )
             )
             self.screen.blit(instr_surf, instr_rect)
@@ -385,18 +270,12 @@ class Game:
         # If a collision happened, set game state to 'game over'
         if collisions:
             self.game_over = True
-            self.score_eligible_for_save = (
-                self._check_score_eligible()
-            )  # Check eligibility upon game over
             # Stop obstacle timer
             pygame.time.set_timer(constants.OBSTACLE_SPAWN_EVENT, 0)
 
     def _reset_game(self):
         # Set the game state back to playing
         self.game_over = False
-        self.entering_name = False
-        self.displaying_scores = False
-        self.score_eligible_for_save = False
 
         # Reset the start time for the new game
         self.start_time = pygame.time.get_ticks()
@@ -413,136 +292,11 @@ class Game:
         # Put the player back in the starting position
         self.llama.reset()
 
-        # Reset name input variables
-        self.player_name = ""
-
         # Restart obstacle timer
         pygame.time.set_timer(
             constants.OBSTACLE_SPAWN_EVENT,
             constants.OBSTACLE_CREATION_INTERVAL,
         )
-
-    def _load_high_scores(self):
-        # Define the filename for high scores file
-        file_path = Path(self.high_score_file)
-        scores = []
-        # Try to open and read the high scores file
-        if file_path.is_file():
-            try:
-                with open(file_path, "r") as f:
-                    scores = json.load(f)
-                # Ensure scores are sorted upon loading
-                scores.sort(
-                    key=lambda item: item.get("score", 0), reverse=True
-                )
-            except FileNotFoundError:
-                print(
-                    f"High score file '{self.high_score_file}' not found."
-                    f" Creating new list."
-                )
-            except json.JSONDecodeError:
-                print(
-                    f"Error decoding JSON from '{self.high_score_file}'."
-                    f" Starting with empty list."
-                )
-            except Exception as e:
-                print(f"An unexpected error occurred loading high scores: {e}")
-        # Return sorted list or empty list
-        return scores[:10]
-
-    def _save_high_scores(self):
-        file_path = Path(self.high_score_file)
-        # Try to open the high scores file
-        try:
-            with open(file_path, "w") as f:
-                # Convert the current high scores list to JSON
-                json.dump(self.high_scores, f, indent=4)
-        except IOError as e:
-            print(
-                f"Error writing high scores to '{self.high_score_file}': {e}"
-            )
-        except Exception as e:
-            print(f"An unexpected error occurred saving high scores: {e}")
-
-    def _check_score_eligible(self):
-        # Get the player's final score
-        final_score = self.scoreboard.score
-        # Return true if the list has < than 10 scores OR score > 10th score
-        if len(self.high_scores) < 10:
-            return True
-        # Check against 10th score (index 9) if list is full
-        elif final_score > self.high_scores[-1].get("score", 0):
-            return True
-        return False
-
-    def _add_high_score(self, name, score):
-        # Create a new score entry dictionary
-        new_entry = {"name": name.strip(), "score": score}
-        # Add the new entry to the main high scores list
-        self.high_scores.append(new_entry)
-        # Sort the list by score, handle missing scores
-        self.high_scores.sort(
-            key=lambda item: item.get("score", 0), reverse=True
-        )
-        # Trim the list to keep only the top 10 entries
-        self.high_scores = self.high_scores[:10]
-        # Call the function to save the updated high scores
-        self._save_high_scores()
-
-    def _draw_high_scores_screen(self):
-        # Clear the screen or draw a suitable background
-        self.screen.fill(constants.GREY)  # Use a different background
-        # Draw a title like "Top 10 High Scores"
-        title_surf = self.highscore_title_font.render(
-            "High Scores", True, constants.BLACK
-        )
-        title_rect = title_surf.get_rect(
-            center=(constants.WINDOW_WIDTH // 2, 50)
-        )
-        self.screen.blit(title_surf, title_rect)
-
-        # Check if list is empty
-        if not self.high_scores:
-            no_scores_surf = self.instruction_font.render(
-                "No high scores yet!", True, constants.BLACK
-            )
-            no_scores_rect = no_scores_surf.get_rect(
-                center=(
-                    constants.WINDOW_WIDTH // 2,
-                    constants.WINDOW_HEIGHT // 2 - 20,
-                )
-            )
-            self.screen.blit(no_scores_surf, no_scores_rect)
-        else:
-            # Loop through the loaded high scores list (up to 10)
-            start_y = 120  # Starting Y position for the first score
-            line_height = 35  # Space between lines
-            for i, entry in enumerate(self.high_scores):
-                # Format and draw the rank, name, and score
-                rank = i + 1
-                name = entry.get("name", "N/A")
-                score = entry.get("score", 0)
-                entry_text = f"{rank}. {name} - {score}"
-                entry_surf = self.highscore_entry_font.render(
-                    entry_text, True, constants.BLACK
-                )
-                # Position centered horizontally, incrementing vertically
-                entry_rect = entry_surf.get_rect(
-                    center=(
-                        constants.WINDOW_WIDTH // 2,
-                        start_y + i * line_height,
-                    )
-                )
-                self.screen.blit(entry_surf, entry_rect)
-
-        # Draw instructions
-        return_instr_surf = self.button_font.render(
-            "Press ESC or Click to Return", True, constants.BLACK
-        )
-        return_instr_rect = return_instr_surf.get_rect(
-            center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT - 30)
-        )
-        self.screen.blit(return_instr_surf, return_instr_rect)
 
 
 class Llama(pygame.sprite.Sprite):
