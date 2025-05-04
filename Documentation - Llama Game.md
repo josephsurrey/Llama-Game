@@ -569,3 +569,7 @@ The issue was when setting up the game clock, I used `self.clock = pygame.time.C
 self.clock = pygame.time.Clock()
 ```
 This fixed the error
+##### Test 02
+When running the game, this screen is shown:
+![[Test02-01.png]]Score increases but nothing else on the display changes. The issue was in `constants.py`, as I had left some of the values like `JUMP_HEIGHT` and `GRAVITY` at `0`. When setting these to realistic values the game actually ran properly.
+![[Test02-02.png]]

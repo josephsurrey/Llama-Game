@@ -10,12 +10,12 @@ OBSTACLE_SPAWN_EVENT = pygame.USEREVENT + 1
 
 GROUND_Y = 100  # Y position of the ground
 
-GRAVITY = 0  # Acceleration due to gravity
-JUMP_SPEED = 0  # Speed at which the player jumps
+GRAVITY = 1.5  # Acceleration due to gravity
+JUMP_SPEED = -20  # Speed at which the player jumps
 
 PLAYER_HORIZONTAL_POSITION = 100  # Starting horizontal position of the player
 
-OBSTACLE_INITIAL_SPEED = 0  # Initial speed of obstacles
+OBSTACLE_INITIAL_SPEED = 8  # Initial speed of obstacles
 OBSTACLE_CREATION_INTERVAL = 2000  # Time interval between obstacle creations
 # (in milliseconds)
 
