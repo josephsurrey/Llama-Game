@@ -549,7 +549,15 @@ class Llama(pygame.sprite.Sprite):
             self.is_jumping = True
 
     def reset(self):
-        pass
+        # Reset position using the stored initial position
+        self.initial_pos = (
+            constants.PLAYER_HORIZONTAL_POSITION,
+            constants.GROUND_Y - self.rect.height,
+        )
+        self.rect.bottomleft = self.initial_pos
+        # Reset physics variables
+        self.velocity_y = 0
+        self.is_jumping = False
 
 
 class Obstacle(pygame.sprite.Sprite):
