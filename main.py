@@ -394,7 +394,16 @@ class Game:
         return False
 
     def _add_high_score(self, name, score):
-        pass
+        # Create a new score entry dictionary
+        new_entry = {"name": name.strip(), "score": score}
+        # Add the new entry to the main high scores list
+        self.high_scores.append(new_entry)
+        # Sort the list by score, handle missing scores
+        self.high_scores.sort(key=lambda item: item.get("score", 0), reverse=True)
+        # Trim the list to keep only the top 10 entries
+        self.high_scores = self.high_scores[:10]
+        # Call the function to save the updated high scores
+        self._save_high_scores()
 
     def _draw_high_scores_screen(self):
         pass
