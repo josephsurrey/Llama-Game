@@ -120,8 +120,6 @@ class Game:
             # Draw everything onto the screen
             self._draw()
             # Control the game's FPS
-            # Used clock.tick_busy_loop which uses more CPU than clock.tick to
-            # ensure that the FPS timing is more accurate
             self.clock.tick_busy_loop(constants.FPS)
 
         # Exit after main loop finishes
@@ -160,7 +158,7 @@ class Game:
         if not self.game_over:
             # Updates all game objects
             self.all_sprites.update()
-            # Update the score based on  time
+            # Update the score based on time
             self.scoreboard.update(pygame.time.get_ticks(), self.start_time)
             # Check for collisions
             self._check_collisions()
@@ -285,13 +283,15 @@ class Game:
         self.scoreboard.reset()
 
         # Remove all obstacles
-        self.obstacles.empty()
+        for obs in self.obstacles:
+            obs.kill()  # Remove from all groups
 
-        self.all_sprites.empty()
-        self.all_sprites.add(self.llama)
-
-        # Put the player back in the starting position
+        # Put the player back in the starting position and state
         self.llama.reset()
+
+        # Ensure player is in all_sprites (might be redundant if reset doesn't remove it)
+        if self.llama not in self.all_sprites:
+             self.all_sprites.add(self.llama)
 
         # Restart obstacle timer
         pygame.time.set_timer(
@@ -320,43 +320,58 @@ class Llama(pygame.sprite.Sprite):
         # Create collision mask from image alpha
         self.mask = pygame.mask.from_surface(self.image)
 
-        # Physics variables
-        self.velocity_y = 0
-        self.is_jumping = False
+        # Jump state variables
+        self.is_moving_up = False
+        self.is_moving_down = False
+        self.jump_pixels_moved = 0
 
-        self.initial_pos = (
+        # Store initial position calculation for reset
+        self.initial_pos_y = constants.GROUND_Y - self.rect.height
+        self.rect.topleft = (
             constants.PLAYER_HORIZONTAL_POSITION,
-            constants.GROUND_Y - self.rect.height,
+            self.initial_pos_y,
         )
 
     def update(self):
-        # Apply gravity to vertical velocity
-        self.velocity_y += constants.GRAVITY
-        # Update vertical position based on velocity
-        self.rect.y += int(self.velocity_y)
+        # Handle upward movement during jump
+        if self.is_moving_up:
+            move_amount = min(
+                constants.JUMP_MOVE_INCREMENT,
+                constants.JUMP_HEIGHT - self.jump_pixels_moved,
+            )
+            self.rect.y -= move_amount
+            self.jump_pixels_moved += move_amount
 
-        # Check for ground collision
-        if self.rect.bottom >= constants.GROUND_Y:
-            # Snap to ground level
-            self.rect.bottom = constants.GROUND_Y
-            # Stop vertical movement
-            self.velocity_y = 0
-            # Update jumping state
-            self.is_jumping = False
+            # Check if peak height reached
+            if self.jump_pixels_moved >= constants.JUMP_HEIGHT:
+                self.is_moving_up = False
+                self.is_moving_down = True
+
+        # Handle downward movement after jump peak
+        elif self.is_moving_down:
+            self.rect.y += constants.JUMP_MOVE_INCREMENT
+
+            # Check for ground collision
+            if self.rect.bottom >= constants.GROUND_Y:
+                self.rect.bottom = constants.GROUND_Y  # Snap to ground
+                self.is_moving_down = False  # Stop falling
 
     def jump(self):
-        if not self.is_jumping:
-            # Apply upward velocity
-            self.velocity_y = constants.JUMP_SPEED
-            # Set jumping state
-            self.is_jumping = True
+        # Allow jump only if on the ground (not already moving up or down)
+        if not self.is_moving_up and not self.is_moving_down:
+            self.is_moving_up = True
+            self.jump_pixels_moved = 0  # Reset counter for new jump
 
     def reset(self):
-        # Reset position using the stored initial position
-        self.rect.topleft = self.initial_pos
-        # Reset physics variables
-        self.velocity_y = 0
-        self.is_jumping = False
+        # Reset position to the initial ground position
+        self.rect.topleft = (
+            constants.PLAYER_HORIZONTAL_POSITION,
+            self.initial_pos_y,
+        )
+        # Reset jump state variables
+        self.is_moving_up = False
+        self.is_moving_down = False
+        self.jump_pixels_moved = 0
 
 
 class Obstacle(pygame.sprite.Sprite):
@@ -375,12 +390,12 @@ class Obstacle(pygame.sprite.Sprite):
             self.image = pygame.Surface([25, 50])  # Example fallback size
             self.image.fill(constants.GREEN)  # Example fallback color
 
-            # Get rectangle from image dimensions
+        # Get rectangle from image dimensions
         self.rect = self.image.get_rect()
         # Create collision mask from image alpha
         self.mask = pygame.mask.from_surface(self.image)
 
-        # Set initial position off-screen right
+        # Set initial position off-screen right, aligned with ground
         self.rect.bottomleft = (
             constants.WINDOW_WIDTH + random.randint(50, 200),
             constants.GROUND_Y,
@@ -414,15 +429,15 @@ class Scoreboard:
         self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def update(self, current_time_ticks, game_start_time_ticks):
-        # Calculate score based on elapsed whole seconds
-        new_score = (current_time_ticks - game_start_time_ticks) // 10
+        # Calculate score based on elapsed time (scaled)
+        new_score = (current_time_ticks - game_start_time_ticks) // 100 # Adjusted scaling
         # Only re-render if score has actually changed
         if new_score != self.score:
             self.score = new_score
             self.image = self.font.render(
                 f"Score: {self.score}", True, self.color
             )
-            # Update rect position in case text size  (unlikely here)
+            # Update rect position in case text size changes (unlikely here)
             self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def draw(self, screen):

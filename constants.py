@@ -2,7 +2,7 @@ import pygame
 
 WINDOW_WIDTH = 900  # Width of the game window
 WINDOW_HEIGHT = 400  # Height of the game window
-WINDOW_TITLE = "Llama Game - Joseph Surrey"  # Title of game window
+WINDOW_TITLE = "Llama Game - Increment Jump - Joseph Surrey"  # Title of game window
 FPS = 30  # Frames per second
 
 # Custom pygame event
@@ -10,8 +10,9 @@ OBSTACLE_SPAWN_EVENT = pygame.USEREVENT + 1
 
 GROUND_Y = 235  # Y position of the ground
 
-GRAVITY = 1.5  # Acceleration due to gravity
-JUMP_SPEED = -20  # Speed at which the player jumps
+# Increment-based jump parameters
+JUMP_HEIGHT = 120  # Total pixels the player moves up during a jump
+JUMP_MOVE_INCREMENT = 10  # Pixels moved per frame during jump/fall
 
 PLAYER_HORIZONTAL_POSITION = 100  # Starting horizontal position of the player
 
