@@ -257,13 +257,18 @@ Passed 4/4 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Reset Game (`_reset_game`)]]
 #### Test Plan
-| Test Case                      | Input / Conditions                 | Expected Output                                                                                                      | Test Type  |
-| :----------------------------- | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------- | :--------- |
-| Standard Reset                 | Called from Game Over state      | `self.game_over` is False, `start_time_ticks` reset, `scoreboard.reset()` called, `llama.reset()` called, obstacles group emptied, name input variables cleared. | Expected   |
-| Reset with Existing Obstacles  | Obstacles exist on screen        | All obstacle sprites removed from `all_sprites` and `obstacles` groups.                                              | Expected   |
-| Reset with Difficulty Increase | Obstacle speed was increased     | Obstacle speed (or other factors) reset to default values.                                                           | Expected   |
-| Call Reset While Playing       | Called unexpectedly (debug?)     | Game state resets, potentially disrupting play but should not crash.                                                 | Unexpected |
+| Test Case                  | Input / Conditions                                | Expected Output / Checks                                                                                                                                                                                                        | Test Type            |
+| :------------------------- | :------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------- |
+| Standard Reset             | Called, e.g., from Game Over state                | `game_over`, `entering_name`, `displaying_scores`, `score_eligible_for_save` are False. `start_time_ticks` is updated (mock `pygame.time.get_ticks`). `scoreboard.reset()` called. `llama.reset()` called. `player_name` is "". | State/Mock Check     |
+| Obstacle Group Reset       | `obstacles` group has sprites before call         | `obstacles.empty()` is called. The `obstacles` group is empty after the call.                                                                                                                                                   | State/Mock Check     |
+| All Sprites Group Reset    | `all_sprites` has llama and obstacles before call | `all_sprites.empty()` is called. `all_sprites.add(llama)` is called. After reset, `all_sprites` group contains *only* the `llama` instance.                                                                                     | State/Mock Check     |
+| Obstacle Timer Restart     | Called                                            | `pygame.time.set_timer` is called once with `constants.OBSTACLE_SPAWN_EVENT` and `constants.OBSTACLE_CREATION_INTERVAL`.                                                                                                        | Mock Check           |
+| Call Reset While Playing   | Called when `game_over` is False                  | Method executes without crashing. All state variables (`game_over`, `entering_name`, etc.) are reset as per "Standard Reset".                                                                                                   | Robustness/State     |
+| Reset with Empty Obstacles | `obstacles` group is already empty before call    | `obstacles.empty()` is called without error. Group remains empty. Other reset actions occur normally.                                                                                                                           | Edge Case/Mock Check |
 #### Test Results
+##### Test 01
+![[Test Results - game__reset_game - test_01.html]]
+Passed 7/7 tests
 
 ### Load High Scores (`_load_high_scores`)
 #### Component Planning
