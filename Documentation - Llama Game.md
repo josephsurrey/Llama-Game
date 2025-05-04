@@ -392,14 +392,18 @@ Passed 8/8 tests
 #### Component Planning
 ![[Llama Class - Llama Game Decomposition#Update Player State (`update`)]]
 #### Test Plan
-| Test Case                          | Input / Conditions                                | Expected Output                                                                                                                         | Test Type |
-| :--------------------------------- | :------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------- | :-------- |
-| Apply Gravity                      | Called while `velocity_y` is 0 or positive        | `self.velocity_y` increases by `GRAVITY`. `self.rect.y` increases.                                                                      | Expected  |
-| Apply Gravity (Moving Up)          | Called while `velocity_y` is negative             | `self.velocity_y` increases (becomes less negative). `self.rect.y` changes according to `velocity_y`.                                   | Expected  |
-| Ground Collision Check (On Ground) | `self.rect.bottom` is exactly `GROUND_HEIGHT`     | `self.rect.bottom` remains `GROUND_HEIGHT`, `self.velocity_y` becomes 0, `self.is_jumping` becomes False.                               | Boundary  |
-| Ground Collision Check (Below)     | `self.rect.bottom` > `GROUND_HEIGHT` (e.g., +1px) | `self.rect.bottom` corrected to `GROUND_HEIGHT`, `self.velocity_y` becomes 0, `self.is_jumping` becomes False.                          | Boundary  |
-| No Ground Collision (Mid-Air)      | `self.rect.bottom` < `GROUND_HEIGHT`              | `self.rect.bottom` changes based on `velocity_y`. `self.velocity_y` changes due to gravity. `is_jumping` remains True (if it was True). | Expected  |
+
+| Test Case                          | Input / Conditions                                     | Expected Output                                                                                                                        | Test Type |
+| :--------------------------------- | :----------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- | :-------- |
+| Apply Gravity                      | Called while `velocity_y` is 0 or positive             | `self.velocity_y` increases by `GRAVITY`. `self.rect.y` increases by `int(self.velocity_y)`.                                           | Expected  |
+| Apply Gravity (Moving Up)          | Called while `velocity_y` is negative                  | `self.velocity_y` increases (becomes less negative). `self.rect.y` changes according to `int(self.velocity_y)`.                        | Expected  |
+| Ground Collision Check (On Ground) | `self.rect.bottom` is exactly `constants.GROUND_Y`     | `self.rect.bottom` remains `constants.GROUND_Y`, `self.velocity_y` becomes 0, `self.is_jumping` becomes False.                         | Boundary  |
+| Ground Collision Check (Below)     | `self.rect.bottom` > `constants.GROUND_Y` (e.g., +1px) | `self.rect.bottom` corrected to `constants.GROUND_Y`, `self.velocity_y` becomes 0, `self.is_jumping` becomes False.                    | Boundary  |
+| No Ground Collision (Mid-Air)      | `self.rect.bottom` < `constants.GROUND_Y`              | `self.rect.bottom` changes based on `int(velocity_y)`. `self.velocity_y` changes due to gravity. `is_jumping` state remains unchanged. | Expected  |
 #### Test Results
+##### Test 01
+![[Test Results - llama_update - test_01.html]]
+Passed 6/6 tests
 
 ### Perform Jump (`jump`)
 #### Component Planning
