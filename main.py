@@ -87,9 +87,26 @@ class Game:
         # Define fonts
         self.score_font = pygame.font.SysFont(None, 36)
         self.game_over_font = pygame.font.SysFont(None, 74)
+        self.instruction_font = pygame.font.SysFont(None, 36)
         self.button_font = pygame.font.SysFont(None, 24)
         self.input_font = pygame.font.SysFont(None, 36)
         self.final_score_font = pygame.font.SysFont(None, 48)
+        self.highscore_title_font = pygame.font.SysFont(None, 60)
+        self.highscore_entry_font = pygame.font.SysFont(None, 30)
+
+        # Define the area/text for the "View High Scores" button.
+        button_text_surf = self.button_font.render(
+            "View High Scores", True, constants.BLACK
+        )
+        button_width = button_text_surf.get_width() + 20  # Add padding
+        button_height = button_text_surf.get_height() + 10
+        button_x = (constants.WINDOW_WIDTH - button_width) // 2
+        button_y = (
+            constants.WINDOW_HEIGHT // 2 + 80
+        )  # Adjust position as needed
+        self.view_scores_button_rect = pygame.Rect(
+            button_x, button_y, button_width, button_height
+        )
 
     def run(self):
         # Begin main loop
@@ -274,6 +291,21 @@ class Game:
                 )
                 self.screen.blit(save_prompt_surf, save_prompt_rect)
 
+            # Draw the "View High Scores" button background and text
+            pygame.draw.rect(
+                self.screen,
+                constants.GREY,
+                self.view_scores_button_rect,
+                border_radius=5,
+            )
+            view_scores_text_surf = self.button_font.render(
+                "View High Scores", True, constants.BLACK
+            )
+            view_scores_text_rect = view_scores_text_surf.get_rect(
+                center=self.view_scores_button_rect.center
+            )
+            self.screen.blit(view_scores_text_surf, view_scores_text_rect)
+
             # Draw the "Restart/Quit" instructions
             instr_surf = self.final_score_font.render(
                 "Press 'R' to Restart or 'Q' to Quit", True, constants.BLACK
@@ -374,11 +406,13 @@ class Game:
         file_path = Path(self.high_score_file)
         # Try to open the high scores file
         try:
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 # Convert the current high scores list to JSON
                 json.dump(self.high_scores, f, indent=4)
         except IOError as e:
-            print(f"Error writing high scores to '{self.high_score_file}': {e}")
+            print(
+                f"Error writing high scores to '{self.high_score_file}': {e}"
+            )
         except Exception as e:
             print(f"An unexpected error occurred saving high scores: {e}")
 
@@ -389,7 +423,7 @@ class Game:
         if len(self.high_scores) < 10:
             return True
         # Check against 10th score (index 9) if list is full
-        elif final_score > self.high_scores[-1].get('score', 0):
+        elif final_score > self.high_scores[-1].get("score", 0):
             return True
         return False
 
@@ -399,14 +433,68 @@ class Game:
         # Add the new entry to the main high scores list
         self.high_scores.append(new_entry)
         # Sort the list by score, handle missing scores
-        self.high_scores.sort(key=lambda item: item.get("score", 0), reverse=True)
+        self.high_scores.sort(
+            key=lambda item: item.get("score", 0), reverse=True
+        )
         # Trim the list to keep only the top 10 entries
         self.high_scores = self.high_scores[:10]
         # Call the function to save the updated high scores
         self._save_high_scores()
 
     def _draw_high_scores_screen(self):
-        pass
+        # Clear the screen or draw a suitable background
+        self.screen.fill(constants.GREY)  # Use a different background
+        # Draw a title like "Top 10 High Scores"
+        title_surf = self.highscore_title_font.render(
+            "High Scores", True, constants.BLACK
+        )
+        title_rect = title_surf.get_rect(
+            center=(constants.WINDOW_WIDTH // 2, 50)
+        )
+        self.screen.blit(title_surf, title_rect)
+
+        # Check if list is empty
+        if not self.high_scores:
+            no_scores_surf = self.instruction_font.render(
+                "No high scores yet!", True, constants.BLACK
+            )
+            no_scores_rect = no_scores_surf.get_rect(
+                center=(
+                    constants.WINDOW_WIDTH // 2,
+                    constants.WINDOW_HEIGHT // 2 - 20,
+                )
+            )
+            self.screen.blit(no_scores_surf, no_scores_rect)
+        else:
+            # Loop through the loaded high scores list (up to 10)
+            start_y = 120  # Starting Y position for the first score
+            line_height = 35  # Space between lines
+            for i, entry in enumerate(self.high_scores):
+                # Format and draw the rank, name, and score
+                rank = i + 1
+                name = entry.get("name", "N/A")
+                score = entry.get("score", 0)
+                entry_text = f"{rank}. {name} - {score}"
+                entry_surf = self.highscore_entry_font.render(
+                    entry_text, True, constants.BLACK
+                )
+                # Position centered horizontally, incrementing vertically
+                entry_rect = entry_surf.get_rect(
+                    center=(
+                        constants.WINDOW_WIDTH // 2,
+                        start_y + i * line_height,
+                    )
+                )
+                self.screen.blit(entry_surf, entry_rect)
+
+        # Draw instructions
+        return_instr_surf = self.button_font.render(
+            "Press ESC or Click to Return", True, constants.BLACK
+        )
+        return_instr_rect = return_instr_surf.get_rect(
+            center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT - 30)
+        )
+        self.screen.blit(return_instr_surf, return_instr_rect)
 
 
 class Llama(pygame.sprite.Sprite):
