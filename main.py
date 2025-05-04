@@ -79,7 +79,7 @@ class Game:
         self.high_score_file = "high_scores.json"
 
         # Load high scores
-        self._load_high_scores()
+        self.high_scores = self._load_high_scores()
 
         # Prepare variable for player name
         self.player_name = ""
@@ -371,7 +371,16 @@ class Game:
         return scores[:10]
 
     def _save_high_scores(self):
-        pass
+        file_path = Path(self.high_score_file)
+        # Try to open the high scores file
+        try:
+            with open(file_path, 'w') as f:
+                # Convert the current high scores list to JSON
+                json.dump(self.high_scores, f, indent=4)
+        except IOError as e:
+            print(f"Error writing high scores to '{self.high_score_file}': {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred saving high scores: {e}")
 
     def _check_score_eligible(self):
         pass
