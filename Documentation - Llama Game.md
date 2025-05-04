@@ -457,14 +457,19 @@ Passed 3/3 tests
 #### Component Planning
 ![[Obstacle Class - Llama Game Decomposition#Setup Obstacle (`__init__`)]]
 #### Test Plan
-| Test Case                      | Input / Conditions                    | Expected Output                                                                                                                 | Test Type |
-| :----------------------------- | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------ | :-------- |
-| Standard Initialization (Shape)| `Obstacle(speed)` called                | `self.image` is a Surface (size matches a type in `OBSTACLE_TYPES`), `rect` exists, `mask` exists, `speed` attribute set.         | Expected  |
-| Random Type Selection          | Called multiple times                 | Different calls result in obstacles with different dimensions corresponding to `OBSTACLE_TYPES`.                                | Expected  |
-| Initial Position Off-Screen    | `Obstacle(speed)` called                | `self.rect.left` is greater than or equal to `SCREEN_WIDTH`. `self.rect.bottom` is `GROUND_HEIGHT`.                            | Expected  |
-| Speed Assignment               | `Obstacle(10)` called                 | `self.speed` attribute is set to 10.                                                                                            | Expected  |
-#### Test Results
 
+| Test Case                                | Input / Conditions                                  | Expected Output / Checks                                                                                                                                                                      | Test Type        |
+| :--------------------------------------- | :-------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------- |
+| Call Superclass Init                     | `Obstacle(speed)` called                            | `pygame.sprite.Sprite.__init__(self)` is called exactly once.                                                                                                                                 | Mock Check       |
+| Image Load Success Path                  | `pygame.image.load` succeeds                        | `pygame.image.load` called with `constants.OBSTACLE_IMAGE`. `convert_alpha()` called on result. `self.image` assigned the converted surface.                                                  | Mock/Attr Check  |
+| Image Load Failure Path (Fallback)       | `pygame.image.load` raises `Exception`              | Exception caught. `pygame.Surface` created with `[25, 50]`. `fill()` called with `constants.GREEN`. `self.image` assigned the fallback surface.                                               | Error Handling   |
+| Rect and Mask Creation (Success/Failure) | `Obstacle()` called (image loaded OR fallback used) | `self.image.get_rect()` called. `self.rect` assigned the result. `pygame.mask.from_surface` called with `self.image`. `self.mask` assigned the result.                                        | Mock/Attr Check  |
+| Initial Position (Off-Screen X, Ground Y)| `Obstacle(speed)` called                            | `random.randint(50, 200)` is called. `self.rect.left` is `>= constants.WINDOW_WIDTH + 50`. `self.rect.bottom` is `constants.GROUND_Y`.                                                   | Expected/Range   |
+| Speed Assignment                         | `Obstacle(10)` called                               | `self.speed` attribute is set to 10.                                                                                                                                                            | Attribute Check  |
+#### Test Results
+##### Test 01
+![[Test Results - obstacle_init - test_01.html]]
+Passed 6/6 tests
 ### Update Obstacle State (`update`)
 #### Component Planning
 ![[Obstacle Class - Llama Game Decomposition#Update Obstacle State (`update`)]]
