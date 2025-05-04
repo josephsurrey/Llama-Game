@@ -374,13 +374,19 @@ Passed 6/6 tests
 #### Component Planning
 ![[Llama Class - Llama Game Decomposition#Setup Player (`__init__`)]]
 #### Test Plan
-| Test Case                                    | Input / Conditions                 | Expected Output                                                                                                                | Test Type |
-| :------------------------------------------- | :--------------------------------- | :----------------------------------------------------------------------------------------------------------------------------- | :-------- |
-| Standard Initialization (Shape)              | `Llama()` called                     | `self.image` is a Surface, `self.rect` exists, `self.mask` exists, `rect.bottomleft` matches initial pos, `velocity_y` is 0. | Expected  |
-| Initial Position Correct                     | `Llama()` called                     | `self.rect.bottomleft` tuple equals `(LLAMA_START_X, GROUND_HEIGHT - LLAMA_HEIGHT)`.                                            | Expected  |
-| Physics Variables Initialized                | `Llama()` called                     | `self.velocity_y` is 0, `self.is_jumping` is False.                                                                          | Expected  |
-| Mask Creation                                | `Llama()` called                     | `self.mask` is a valid `pygame.Mask` object derived from `self.image`.                                                         | Expected  |
+
+| Test Case                                 | Input / Conditions                          | Expected Output                                                                                                                                                                                      | Test Type       |
+| :---------------------------------------- | :------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------- |
+| Superclass Initialization                 | `Llama()` called                            | `pygame.sprite.Sprite.__init__(self)` is called exactly once.                                                                                                                                        | Mock Check      |
+| Image Load Success Path                   | `pygame.image.load` succeeds                | `pygame.image.load` called with `constants.PLAYER_IMAGE`. `convert_alpha()` called on result. `self.image` assigned the converted surface.                                                           | Mock/Attr Check |
+| Image Load Failure Path (Fallback)        | `pygame.image.load` raises `Exception`      | `pygame.Surface` created with `[40, 60]`. `fill()` called with `constants.RED`. `self.image` assigned the fallback surface.                                                                          | Error Handling  |
+| Rect and Mask Creation (Success/Failure)  | `Llama()` called (image loaded or fallback) | `self.image.get_rect()` called. `self.rect` assigned the result. `pygame.mask.from_surface` called with `self.image`. `self.mask` assigned the result.                                               | Mock/Attr Check |
+| Physics Variables Initialized             | `Llama()` called                            | `self.velocity_y` is initialized to 0. `self.is_jumping` is initialized to False.                                                                                                                    | Attribute Check |
+| Initial Position Calculation & Assignment | `Llama()` called                            | `self.initial_pos` tuple equals `(constants.PLAYER_HORIZONTAL_POSITION, constants.GROUND_Y - self.rect.height)`. `self.rect.bottomleft` is set to the value of `self.initial_pos` after calculation. | Attribute Check |
 #### Test Results
+##### Test 01
+![[Test Results - llama_init - test_01.html]]
+Passed 8/8 tests
 
 ### Update Player State (`update`)
 #### Component Planning
