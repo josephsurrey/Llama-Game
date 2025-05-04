@@ -409,12 +409,15 @@ Passed 6/6 tests
 #### Component Planning
 ![[Llama Class - Llama Game Decomposition#Perform Jump (`jump`)]]
 #### Test Plan
-| Test Case          | Input / Conditions                                    | Expected Output                                                                 | Test Type  |
-| :----------------- | :---------------------------------------------------- | :------------------------------------------------------------------------------ | :--------- |
-| Jump From Ground   | Called while `rect.bottom == GROUND_HEIGHT`           | `self.velocity_y` becomes `-JUMP_STRENGTH`. `self.is_jumping` becomes True.     | Expected   |
-| Attempt Double Jump| Called while `rect.bottom < GROUND_HEIGHT` (in air) | No change to `self.velocity_y` or `self.is_jumping`.                            | Expected   |
-| Rapid Jumps        | Called multiple times quickly while on ground         | Only the first call (when on ground) triggers the jump; subsequent calls fail. | Edge Case  |
+
+| Test Case                         | Input / Conditions         | Expected Output                                                                   | Test Type |
+| :-------------------------------- | :------------------------- | :-------------------------------------------------------------------------------- | :-------- |
+| Jump When Not Jumping             | `self.is_jumping` is False | `self.velocity_y` becomes `constants.JUMP_SPEED`, `self.is_jumping` becomes True. | Expected  |
+| Attempt Jump When Already Jumping | `self.is_jumping` is True  | No change to `self.velocity_y` or `self.is_jumping`.                              | Expected  |
 #### Test Results
+##### Test 01
+![[Test Results - llama_jump - test_01.html]]
+Passed 3/3 tests
 
 ### Reset Player (`reset`)
 #### Component Planning
