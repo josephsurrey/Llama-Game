@@ -611,14 +611,18 @@ class Scoreboard:
         # Initialize score
         self.score = 0
         # Initial render of score text
-        self._render_text()
-
-
-    def _render_text(self):
-        pass
+        self.image = self.font.render(f"Score: {self.score}", True, self.color)
+        self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def update(self, current_time_ticks, game_start_time_ticks):
-        pass
+        # Calculate score based on elapsed whole seconds
+        new_score = (current_time_ticks - game_start_time_ticks) // 10
+        # Only re-render if score has actually changed
+        if new_score != self.score:
+            self.score = new_score
+            self.image = self.font.render(f"Score: {self.score}", True, self.color)
+            # Update rect position in case text size  (unlikely here)
+            self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def draw(self):
         pass
