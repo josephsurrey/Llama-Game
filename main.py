@@ -527,7 +527,19 @@ class Llama(pygame.sprite.Sprite):
         )
 
     def update(self):
-        pass
+        # Apply gravity to vertical velocity
+        self.velocity_y += constants.GRAVITY
+        # Update vertical position based on velocity
+        self.rect.y += int(self.velocity_y)
+
+        # Check for ground collision
+        if self.rect.bottom >= constants.GROUND_Y:
+            # Snap to ground level
+            self.rect.bottom = constants.GROUND_Y
+            # Stop vertical movement
+            self.velocity_y = 0
+            # Update jumping state
+            self.is_jumping = False
 
     def jump(self):
         pass
