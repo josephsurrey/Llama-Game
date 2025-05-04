@@ -2,6 +2,7 @@ import sys
 import random
 import json
 import os
+from pathlib import Path
 import pygame
 
 import constants
@@ -73,6 +74,9 @@ class Game:
             constants.OBSTACLE_SPAWN_EVENT,
             constants.OBSTACLE_CREATION_INTERVAL,
         )
+
+        # Load high scores file
+        self.high_score_file = "high_scores.json"
 
         # Load high scores
         self._load_high_scores()
@@ -339,7 +343,32 @@ class Game:
         )
 
     def _load_high_scores(self):
-        pass
+        # Define the filename for high scores file
+        file_path = Path(self.high_score_file)
+        scores = []
+        # Try to open and read the high scores file
+        if file_path.is_file():
+            try:
+                with open(file_path, "r") as f:
+                    scores = json.load(f)
+                # Ensure scores are sorted upon loading
+                scores.sort(
+                    key=lambda item: item.get("score", 0), reverse=True
+                )
+            except FileNotFoundError:
+                print(
+                    f"High score file '{self.high_score_file}' not found."
+                    f" Creating new list."
+                )
+            except json.JSONDecodeError:
+                print(
+                    f"Error decoding JSON from '{self.high_score_file}'."
+                    f" Starting with empty list."
+                )
+            except Exception as e:
+                print(f"An unexpected error occurred loading high scores: {e}")
+        # Return sorted list or empty list
+        return scores[:10]
 
     def _save_high_scores(self):
         pass
