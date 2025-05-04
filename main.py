@@ -624,8 +624,9 @@ class Scoreboard:
             # Update rect position in case text size  (unlikely here)
             self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        # Draw the pre-rendered score surface onto the main screen
+        screen.blit(self.image, self.rect)
 
     def reset(self):
         pass
