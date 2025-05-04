@@ -482,7 +482,9 @@ Passed 6/6 tests
 | Off-Screen Check (Boundary) | `self.rect.right` becomes < 0               | `self.kill()` is called (verified by checking sprite group membership afterwards). | Boundary  |
 | Zero Speed Obstacle         | `self.speed` is 0                           | `self.rect.x` does not change. Obstacle never goes off-screen left via movement. | Edge Case |
 #### Test Results
-
+##### Test 01
+![[Test Results - obstacle_update - test_01.html]]
+Passed 5/5 tests
 
 ## [[Scoreboard Class - Llama Game Decomposition]]
 
