@@ -311,14 +311,19 @@ Passed 4/4 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Check Score Eligibility (`_check_score_eligible`)]]
 #### Test Plan
-| Test Case                    | Input / Conditions                                                   | Expected Output                                                                                    | Test Type  |
-| :--------------------------- | :------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------- | :--------- |
-| List < 10, Any Score         | `len(self.high_scores)` is 5, `final_score` is 1                     | True                                                                                               | Expected   |
-| List = 10, Score > 10th      | `len` is 10, 10th score is 50, `final_score` is 51                   | True                                                                                               | Expected   |
-| List = 10, Score = 10th      | `len` is 10, 10th score is 50, `final_score` is 50                   | False                                                                                              | Boundary   |
-| List = 10, Score < 10th      | `len` is 10, 10th score is 50, `final_score` is 49                   | False                                                                                              | Expected   |
-| Empty List                   | `self.high_scores` is `[]`, `final_score` is 10                      | True                                                                                               | Edge Case  |
+
+| Test Case                           | Input / Conditions                                              | Expected Output | Test Type  |
+| :---------------------------------- | :-------------------------------------------------------------- | :-------------- | :--------- |
+| List < 10, Any Score                | `len(self.high_scores)` is 5, `final_score` is 1                | True            | Expected   |
+| List = 10, Score > 10th             | `len` is 10, 10th score is 50, `final_score` is 51              | True            | Expected   |
+| List = 10, Score = 10th             | `len` is 10, 10th score is 50, `final_score` is 50              | False           | Boundary   |
+| List = 10, Score < 10th             | `len` is 10, 10th score is 50, `final_score` is 49              | False           | Expected   |
+| Empty List                          | `self.high_scores` is `[]`, `final_score` is 10                 | True            | Edge Case  |
+| List = 10, Last Entry Missing Score | `len` is 10, 10th entry is `{'name':'Bad'}`, `final_score` is 1 | True            | Robustness |
 #### Test Results
+##### Test 01
+![[Test Results - game__check_score_eligibility.html]]
+Passed 7/7 tests
 
 ### Add High Score (`_add_high_score`)
 #### Component Planning
