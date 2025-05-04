@@ -383,7 +383,15 @@ class Game:
             print(f"An unexpected error occurred saving high scores: {e}")
 
     def _check_score_eligible(self):
-        pass
+        # Get the player's final score
+        final_score = self.scoreboard.score
+        # Return true if the list has < than 10 scores OR score > 10th score
+        if len(self.high_scores) < 10:
+            return True
+        # Check against 10th score (index 9) if list is full
+        elif final_score > self.high_scores[-1].get('score', 0):
+            return True
+        return False
 
     def _add_high_score(self, name, score):
         pass
