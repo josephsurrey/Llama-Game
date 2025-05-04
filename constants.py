@@ -8,7 +8,7 @@ FPS = 30  # Frames per second
 # Custom pygame event
 OBSTACLE_SPAWN_EVENT = pygame.USEREVENT + 1
 
-GROUND_Y = 100  # Y position of the ground
+GROUND_Y = 235  # Y position of the ground
 
 GRAVITY = 1.5  # Acceleration due to gravity
 JUMP_SPEED = -20  # Speed at which the player jumps

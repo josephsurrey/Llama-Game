@@ -573,3 +573,10 @@ This fixed the error
 When running the game, this screen is shown:
 ![[Test02-01.png]]Score increases but nothing else on the display changes. The issue was in `constants.py`, as I had left some of the values like `JUMP_HEIGHT` and `GRAVITY` at `0`. When setting these to realistic values the game actually ran properly.
 ![[Test02-02.png]]
+##### Test 03
+The next thing to fix was the background image and the spawn height of the llama. The background image is not scaled to the size of the window, and the llama is spawning at the incorrect height. After making some changes to the way the image is loaded, it now correctly fits the screen. I trialled two different ways of doing this.
+###### Method 1:
+I set the window size to the exact dimensions of the image. This resulted in the image matching perfectly with the window.
+###### Method 2:
+I calculated the aspect ratio of the image, and then scaled it up so that the aspect ration remained the same but the height matched the window height (defined in constants). This means that more complicated backgrounds and different sized windows can be used while keeping the size and scale accurate and aesthetic. I chose to use this option in my outcome.
+![[test03-01.png]]The image now scales correctly and the llama stands on the ground.

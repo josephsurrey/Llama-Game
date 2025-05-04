@@ -26,7 +26,7 @@ class Game:
 
         # Start game clock
         self.clock = pygame.time.Clock()
-        
+
         # Set initial game states
         self.running = True
         self.game_over = False
@@ -51,23 +51,57 @@ class Game:
         self.scoreboard = Scoreboard()
 
         # Load ground image
+        self.scaled_ground_image = None
         try:
-            ground_image = pygame.image.load(constants.GROUND_IMAGE)
-            self.ground_image = ground_image.convert()
+            # Load the original image
+            original_ground_surf = pygame.image.load(
+                constants.GROUND_IMAGE
+            ).convert_alpha()
+
+            # Get original dimensions
+            original_width = original_ground_surf.get_width()
+            original_height = original_ground_surf.get_height()
+
+            # Calculate the desired height based on GROUND_Y and window height
+            target_height = constants.WINDOW_HEIGHT
+
+            # Check if original dimensions and target height are valid
+            if (
+                original_width > 0
+                and original_height > 0
+                and target_height > 0
+            ):
+                # Calculate the aspect ratio
+                aspect_ratio = float(original_width) / float(original_height)
+
+                # Calculate the target width
+                target_width = int(aspect_ratio * target_height)
+
+                # Ensure target_width is at least 1 pixel
+                if target_width < 1:
+                    target_width = 1
+
+                # Scale the image using transform.scale
+                self.scaled_ground_image = pygame.transform.scale(
+                    original_ground_surf,
+                    (
+                        target_width,
+                        target_height,
+                    ),  # Scale to calculated width, target height
+                )
+
+            else:
+                self.scaled_ground_image = None
+
         except pygame.error as e:
-            # If an error occurs when loading ground image,
-            # fall back to solid colour ground
             print(
-                f"Error loading ground image:"
+                f"Error loading or scaling ground image:"
                 f" {constants.GROUND_IMAGE} - {e}"
             )
-            print("Falling back to solid color ground.")
-            self.ground_image = None
+            self.scaled_ground_image = None
         except FileNotFoundError:
-            # If file isn't found, fall back to solid colour ground
-            print(f"Ground image file not found:" f" {constants.GROUND_IMAGE}")
-            print("Falling back to solid color ground.")
-            self.ground_image = None
+            print(f"Ground image file not found: {constants.GROUND_IMAGE}")
+            self.scaled_ground_image = None
 
         # Set timer for obstacle spawning
         pygame.time.set_timer(
@@ -221,20 +255,33 @@ class Game:
 
         # Draw gameplay elements
         if not self.displaying_scores and not self.entering_name:
-            # Draw the ground
-            if self.ground_image:
-                (
-                    self.screen.blit(
-                        self.ground_image,
-                        (
-                            0,
-                            constants.WINDOW_HEIGHT
-                            - self.ground_image.get_height(),
-                        ),
+            if self.scaled_ground_image:
+                scaled_width = self.scaled_ground_image.get_width()
+                draw_y = 0
+
+                if scaled_width > 0:
+                    draw_x = 0
+                    while draw_x < constants.WINDOW_WIDTH:
+                        self.screen.blit(
+                            self.scaled_ground_image, (draw_x, draw_y)
+                        )
+                        draw_x += scaled_width
+                else:
+                    # Fallback if scaled_width is 0
+                    print(
+                        "Warning: Scaled ground image width is zero,"
+                        " drawing fallback."
                     )
-                )
+                    ground_rect = pygame.Rect(
+                        0,
+                        constants.GROUND_Y,
+                        constants.WINDOW_WIDTH,
+                        constants.WINDOW_HEIGHT - constants.GROUND_Y,
+                    )
+                    pygame.draw.rect(self.screen, constants.GREY, ground_rect)
+
             else:
-                # Draw solid ground rectangle
+                # Fallback: Draw solid ground rectangle if image failed to load
                 ground_rect = pygame.Rect(
                     0,
                     constants.GROUND_Y,
