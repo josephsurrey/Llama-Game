@@ -555,3 +555,17 @@ Passed 2/2 tests
 ##### Test 01
 ![[Test Results - scoreboard_reset - test_01.html]]
 Passed 3/3 tests
+
+## Assembled outcome - Testing
+##### Test 01
+When run the game returns an error:
+```
+    self.clock.tick_busy_loop(constants.FPS)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+TypeError: descriptor 'tick_busy_loop' for 'pygame.time.Clock' objects doesn't apply to a 'int' object
+```
+The issue was when setting up the game clock, I used `self.clock = pygame.time.Clock`. This assigns the class `pygame.time.Clock` to `self.clock` instead of assigning an instance of `pygame.time.Clock`. To fix this I added parentheses to the end of the line:
+```
+self.clock = pygame.time.Clock()
+```
+This fixed the error

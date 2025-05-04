@@ -25,8 +25,8 @@ class Game:
         pygame.display.set_caption(constants.WINDOW_TITLE)
 
         # Start game clock
-        self.clock = pygame.time.Clock
-
+        self.clock = pygame.time.Clock()
+        
         # Set initial game states
         self.running = True
         self.game_over = False
