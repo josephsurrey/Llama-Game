@@ -1,3 +1,10 @@
+# Links
+ - [Final version of program - requires constants.py and images folder to be downloaded](https://github.com/josephsurrey/Llama-Game/blob/main/main.py)
+ - [constants.py](https://github.com/josephsurrey/Llama-Game/blob/main/constants.py)
+ - [Images directory](https://github.com/josephsurrey/Llama-Game/tree/main/images)
+ - [Version control evidence](https://github.com/josephsurrey/Llama-Game/commits/main/)
+  
+
 # Relevant Implications
 ### Functionality
 Functionality involves ensuring that the outcome functions as intended. For this project, this means creating a playable Llama game which is easily playable with no bugs. This means that the program cannot crash on edge cases, must be able to handle all possible events, etc.
@@ -408,6 +415,15 @@ Passed 6/6 tests
 ### Perform Jump (`jump`)
 #### Component Planning
 ![[Llama Class - Llama Game Decomposition#Perform Jump (`jump`)]]
+#### Trialling
+I trialled two different methods of performing a jump.
+##### Method 1:
+This method involved moving the llama up in certain increments, and then back down in certain increments. This method resulted in the jump being performed, but it looked jerky and unrealistic.
+##### Method 2:
+This method involved using basic gravity physics to model the jump. When the jump key is pressed, the llama's velocity is set to a value (taken from `constants.py`), and every frame the velocity is changed by the gravity value defined in `constants.py`. Once the llama's vertical position is at the ground level, the velocity is set to 0. This results in a natural looking jump, which can easily be adjusted by changing the respective values.
+
+Ultimately I chose method two, as it looks better and is more adjustable than method one.
+
 #### Test Plan
 
 | Test Case                         | Input / Conditions         | Expected Output                                                                   | Test Type |
@@ -573,7 +589,7 @@ This fixed the error
 When running the game, this screen is shown:
 ![[Test02-01.png]]Score increases but nothing else on the display changes. The issue was in `constants.py`, as I had left some of the values like `JUMP_HEIGHT` and `GRAVITY` at `0`. When setting these to realistic values the game actually ran properly.
 ![[Test02-02.png]]
-##### Test 03
+##### Test 03/Trial
 The next thing to fix was the background image and the spawn height of the llama. The background image is not scaled to the size of the window, and the llama is spawning at the incorrect height. After making some changes to the way the image is loaded, it now correctly fits the screen. I trialled two different ways of doing this.
 ###### Method 1:
 I set the window size to the exact dimensions of the image. This resulted in the image matching perfectly with the window.
@@ -622,3 +638,32 @@ The game now runs as expected.
 ##### Test 01
 ![[Test Results - game_intergration - test_01.html]]
 Passed 11/11 integration tests
+
+# Final Discussion
+
+## Addressing relevant implications
+
+*   **Functionality** By finding and fixing bugs in individual parts and how they worked together, I made sure the game runs, the player can jump, obstacles appear, collisions end the game, and restarting works as intended.
+*   **Usability** I planned simple controls (Space/Up to jump, R to restart, Q to quit). Testing confirmed these controls worked only when they were supposed to. Clear on-screen instructions tell the player what to do. The smoother jump (from trialling) also makes it easier to control the llama.
+*   **Aesthetics** I planned to use images instead of plain shapes. Testing made sure the images loaded. Trialling helped me choose the best way to scale the background and make the jump look natural, improving the game's visual appeal.
+*   **Social** I thought about whether a simple game like this could be harmful (like being too addictive). I decided the risk was very low for this basic game, so no special features were needed to prevent problems.
+
+## Complex processes
+
+**Planning the Game:**
+First, I planned how the game would work. I decided on the different parts (like the `Game`, `Llama`, `Obstacle` classes) and what each part should do. I also made a `constants.py` file to keep important settings (like window size, speed, image names) in one place. This plan gave me a clear guide to follow.
+
+**Testing the Parts:**
+As I built each part, I tested it carefully. These tests helped me find problems early:
+*   The tests for `constants.py` showed I had written the image file locations incorrectly, which stopped the images from loading.
+*   A test for setting up the `Game` found a mistake in how I started the game clock, which would have crashed the game.
+*   Testing the `Llama`'s reset function showed the llama wasn't starting in the right spot
+
+Fixing these bugs found during testing made the game work correctly and stopped it from crashing.
+
+**Trialling**
+*   **Jumping:** I tried two ways for the llama to jump. The first way looked jerky. The second way used simple physics (gravity and speed) and looked much smoother and more natural, so I chose that one.
+*   **Background:** I decided to scale the background to fit the screen, rather than scale the screen to fit the background to make it easy to use other backgrounds in the future.
+
+The combination of these three processes helped me to develop an outcome that was of a very high quality.
+
