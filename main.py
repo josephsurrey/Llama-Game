@@ -554,7 +554,7 @@ class Llama(pygame.sprite.Sprite):
             constants.PLAYER_HORIZONTAL_POSITION,
             constants.GROUND_Y - self.rect.height,
         )
-        self.rect.bottomleft = self.initial_pos
+        self.rect.topleft = self.initial_pos
         # Reset physics variables
         self.velocity_y = 0
         self.is_jumping = False

@@ -429,7 +429,25 @@ Passed 3/3 tests
 | Reset While Moving | Called while Llama is mid-air   | `rect.bottomleft` returns to `initial_pos`. `velocity_y` becomes 0. `is_jumping` becomes False. | Expected  |
 | Reset From Ground  | Called while Llama is on ground | `rect.bottomleft` remains at `initial_pos`. `velocity_y` remains 0. `is_jumping` remains False. | Expected  |
 #### Test Results
-
+##### Test 01
+![[Test Results - llama_reset - test_01.html]]
+Failed 3/3 tests.
+This is because `Llama.reset` sets `self.initial_pos` to the correct coordinates for the top left of the sprite, then sets `self.rect.bottomleft` to `self.initial_pos`
+```
+self.initial_pos = (  
+    constants.PLAYER_HORIZONTAL_POSITION,  
+    constants.GROUND_Y - self.rect.height,  
+)  
+self.rect.bottomleft = self.initial_pos
+```
+To fix this, I changed the code to set the *top* left corner to `self.inital_pos`.
+```
+self.initial_pos = (  
+    constants.PLAYER_HORIZONTAL_POSITION,  
+    constants.GROUND_Y - self.rect.height,  
+)  
+self.rect.topleft = self.initial_pos
+```
 
 ## [[Obstacle Class - Llama Game Decomposition]]
 
