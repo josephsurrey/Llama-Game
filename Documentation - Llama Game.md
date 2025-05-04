@@ -448,7 +448,9 @@ self.initial_pos = (
 )  
 self.rect.topleft = self.initial_pos
 ```
-
+##### Test 02
+![[Test Results - llama_reset - test_02.html]]
+Passed 3/3 tests
 ## [[Obstacle Class - Llama Game Decomposition]]
 
 ### Setup Obstacle (`__init__`)
