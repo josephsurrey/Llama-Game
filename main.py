@@ -499,7 +499,32 @@ class Game:
 
 class Llama(pygame.sprite.Sprite):
     def __init__(self):
+        # Initialize base Sprite class
         super().__init__()
+        # Load the player image, convert for performance
+        try:
+            self.image = pygame.image.load(
+                constants.PLAYER_IMAGE
+            ).convert_alpha()
+        except Exception as e:
+            # Fallback to shape if image load fails
+            print(f"Error loading player image: {e}. Creating fallback shape.")
+            self.image = pygame.Surface([40, 60])
+            self.image.fill(constants.RED)
+
+        # Get rectangle from image dimensions
+        self.rect = self.image.get_rect()
+        # Create collision mask from image alpha
+        self.mask = pygame.mask.from_surface(self.image)
+
+        # Physics variables
+        self.velocity_y = 0
+        self.is_jumping = False
+
+        self.initial_pos = (
+            constants.PLAYER_HORIZONTAL_POSITION,
+            constants.GROUND_Y - self.rect.height,
+        )
 
     def update(self):
         pass
