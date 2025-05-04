@@ -274,16 +274,23 @@ Passed 7/7 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Load High Scores (`_load_high_scores`)]]
 #### Test Plan
-| Test Case                      | Input / Conditions                                      | Expected Output                                                                                                                | Test Type      |
-| :----------------------------- | :------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------- | :------------- |
-| File Exists, Valid JSON List   | `high_scores.json` contains `[{"name":"A","score":10}]` | Method returns the list `[{'name':'A', 'score':10}]`. `self.high_scores` (in `__init__`) stores this list.                     | Expected       |
-| File Exists, Empty JSON List   | `high_scores.json` contains `[]`                        | Method returns `[]`. `self.high_scores` stores `[]`.                                                                           | Expected       |
-| File Does Not Exist            | No `high_scores.json` file                              | `FileNotFoundError` caught, method returns `[]`. `self.high_scores` stores `[]`. No crash.                                     | Edge Case      |
-| File Exists, Invalid JSON      | `high_scores.json` contains `"abc"`                     | `json.JSONDecodeError` caught, method returns `[]`. `self.high_scores` stores `[]`. No crash. Log message potentially printed. | Error Handling |
-| File Exists, Not a List        | `high_scores.json` contains `{"name":"A","score":10}`   | Error during processing (e.g., `TypeError` if expecting list methods), handled gracefully, method returns `[]`.                | Error Handling |
-| File Contains Non-Dict Items   | `high_scores.json` contains `[1, 2, 3]`                 | Potential error during sorting/accessing `['score']`, handled gracefully, method returns `[]` or partially processed list.     | Error Handling |
-| File Contains Missing Keys     | `high_scores.json` contains `[{"name":"A"}]`            | Potential `KeyError` during sorting, handled gracefully, method returns `[]` or partially processed list.                      | Error Handling |
+| Test Case                      | Input / Conditions                                                              | Expected Output / Checks                                                                                                               | Test Type      |
+| :----------------------------- | :------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------- | :------------- |
+| File Exists, Valid JSON List   | `high_scores.json` contains `[{"name":"A","score":10}]`                         | Returns the list `[{'name':'A', 'score':10}]`.                                                                                         | Expected       |
+| File Exists, Correct Sorting   | `high_scores.json` contains `[{"name":"B","score":5}, {"name":"A","score":10}]` | Returns the sorted list `[{'name':'A', 'score':10}, {'name':'B', 'score':5}]`.                                                         | Expected       |
+| File Exists, Missing Keys      | `high_scores.json` contains `[{"name":"A"}, {"name":"B", "score":10}]`          | Returns sorted list `[{'name':'B', 'score':10}, {'name':'A', 'score':0}]` (uses default 0 for missing score). No error.                | Expected       |
+| File Exists, Truncation        | `high_scores.json` contains 12 valid score entries                              | Returns only the top 10 highest score entries, correctly sorted.                                                                       | Boundary       |
+| File Exists, Empty JSON List   | `high_scores.json` contains `[]`                                                | Returns `[]`.                                                                                                                          | Expected       |
+| File Does Not Exist            | No `high_scores.json` file                                                      | Returns `[]`. No error. `is_file()` check prevents attempt to open.                                                                    | Edge Case      |
+| Path Is Directory              | `high_scores.json` exists but is a directory                                    | Returns `[]`. No error. `is_file()` check prevents attempt to open.                                                                    | Edge Case      |
+| File Exists, Invalid JSON      | `high_scores.json` contains `"abc"`                                             | `json.JSONDecodeError` caught, returns `[]`. No crash. Print message potentially called.                                               | Error Handling |
+| File Exists, Content Not List  | `high_scores.json` contains `{"name":"A","score":10}` (a dictionary)            | `AttributeError` on sort caught by generic `except`. **Raises `TypeError`** when slicing the non-list `scores` variable in `return`.   | Error Handling |
+| File Exists, List w/ Non-Dicts | `high_scores.json` contains `[1, 2, 3]`                                         | `AttributeError` on `item.get` caught by generic `except`. **Raises `TypeError`** when slicing the list `scores` variable in `return`. | Error Handling |
+| File Exists, Permission Error  | `high_scores.json` exists, but `open()` raises `OSError`                        | `OSError` caught by generic `except Exception`. Returns `[]`. Print message potentially called.                                        | Error Handling |
 #### Test Results
+##### Test 01
+![[Test Results - game__load_high_scores.html]]
+Passed 11/11 tests
 
 ### Save High Scores (`_save_high_scores`)
 #### Component Planning
