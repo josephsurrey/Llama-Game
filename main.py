@@ -599,7 +599,22 @@ class Obstacle(pygame.sprite.Sprite):
 
 
 class Scoreboard:
-    def __init__(self):
+    def __init__(self, x=10, y=10, font_size=36, color=constants.BLACK):
+        # Store display properties
+        self.x = x
+        self.y = y
+        self.color = color
+
+        # Initialize font
+        self.font = pygame.font.SysFont(None, font_size)
+
+        # Initialize score
+        self.score = 0
+        # Initial render of score text
+        self._render_text()
+
+
+    def _render_text(self):
         pass
 
     def update(self, current_time_ticks, game_start_time_ticks):
