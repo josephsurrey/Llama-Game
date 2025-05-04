@@ -591,7 +591,11 @@ class Obstacle(pygame.sprite.Sprite):
         self.speed = speed
 
     def update(self):
-        pass
+        # Move obstacle left based on speed
+        self.rect.x -= self.speed
+        # Remove sprite if it goes completely off-screen left
+        if self.rect.right < 0:
+            self.kill()  # Removes sprite from all groups
 
 
 class Scoreboard:
