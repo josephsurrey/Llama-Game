@@ -563,6 +563,32 @@ class Llama(pygame.sprite.Sprite):
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, speed):
         super().__init__()
+        # Load the obstacle image, convert for performance
+        try:
+            self.image = pygame.image.load(
+                constants.OBSTACLE_IMAGE
+            ).convert_alpha()
+        except Exception as e:
+            # Fallback to shape if image load fails
+            print(
+                f"Error loading obstacle image: {e}. Creating fallback shape."
+            )
+            self.image = pygame.Surface([25, 50])  # Example fallback size
+            self.image.fill(constants.GREEN)  # Example fallback color
+
+            # Get rectangle from image dimensions
+        self.rect = self.image.get_rect()
+        # Create collision mask from image alpha
+        self.mask = pygame.mask.from_surface(self.image)
+
+        # Set initial position off-screen right
+        self.rect.bottomleft = (
+            constants.WINDOW_WIDTH + random.randint(50, 200),
+            constants.GROUND_Y,
+        )
+
+        # Store movement speed
+        self.speed = speed
 
     def update(self):
         pass
