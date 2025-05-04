@@ -530,12 +530,16 @@ Passed 9/9 tests
 #### Component Planning
 ![[Scoreboard Class - Llama Game Decomposition#Draw Score (`draw`)]]
 #### Test Plan
-| Test Case                   | Input / Conditions                     | Expected Output                                                                   | Test Type  |
-| :-------------------------- | :------------------------------------- | :-------------------------------------------------------------------------------- | :--------- |
-| Draw Current Score          | Called with valid `screen` surface   | `self.image` (containing current score text) is drawn at `self.rect` position.  | Expected   |
-| Called Before First Update  | Called immediately after `__init__`    | Draws the initial "Score: 0" image.                                             | Expected   |
-| Invalid Screen (Conceptual) | `screen` is None or not a Surface      | `screen.blit` raises an error (should be caught by `Game._draw` if necessary).  | Error Case |
+
+| Test Case                   | Input / Conditions                                         | Expected Output / Checks                                                                  | Test Type        |
+| :-------------------------- | :--------------------------------------------------------- | :---------------------------------------------------------------------------------------- | :--------------- |
+| Draws Current Score Image   | Called with valid `screen` surface                         | `screen.blit` is called once with the current `self.image` and `self.rect` attributes.    | State/Mock Check |
+| Draws Updated Score Image   | Called after `update` has changed `self.image`/`self.rect` | `screen.blit` is called once with the *updated* `self.image` and `self.rect` attributes.  | State/Mock Check |
+
 #### Test Results
+##### Test 01
+![[Test Results - scoreboard_draw - test_01.html]]
+Passed 2/2 tests
 
 ### Reset Score (`reset`)
 #### Component Planning
