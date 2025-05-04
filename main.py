@@ -620,7 +620,9 @@ class Scoreboard:
         # Only re-render if score has actually changed
         if new_score != self.score:
             self.score = new_score
-            self.image = self.font.render(f"Score: {self.score}", True, self.color)
+            self.image = self.font.render(
+                f"Score: {self.score}", True, self.color
+            )
             # Update rect position in case text size  (unlikely here)
             self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
@@ -637,4 +639,7 @@ class Scoreboard:
 
 
 if __name__ == "__main__":
-    pass
+    # Instantiate the Game class
+    game = Game()
+    # Start the main game loop
+    game.run()
