@@ -110,7 +110,6 @@ class Game:
         self.instruction_font = pygame.font.SysFont(None, 36)
         self.button_font = pygame.font.SysFont(None, 24)
 
-
     def run(self):
         # Begin main loop
         while self.running:
@@ -155,7 +154,6 @@ class Game:
                     # Check if the user pressed the quit key
                     elif event.key == pygame.K_q:
                         self.running = False
-
 
     def _update(self):
         # Check if the game is playing
@@ -227,8 +225,12 @@ class Game:
             self.screen.blit(go_text_surf, go_text_rect)
 
             # Draw the final score text
-            final_score_surf = self.instruction_font.render( # Using instruction font size
-                f"Final Score: {self.scoreboard.score}", True, constants.BLACK
+            final_score_surf = (
+                self.instruction_font.render(  # Using instruction font size
+                    f"Final Score: {self.scoreboard.score}",
+                    True,
+                    constants.BLACK,
+                )
             )
             final_score_rect = final_score_surf.get_rect(
                 center=(
@@ -238,7 +240,6 @@ class Game:
             )
             self.screen.blit(final_score_surf, final_score_rect)
 
-
             # Draw the "Restart/Quit" instructions
             instr_surf = self.instruction_font.render(
                 "Press 'R' to Restart or 'Q' to Quit", True, constants.BLACK
@@ -246,7 +247,7 @@ class Game:
             instr_rect = instr_surf.get_rect(
                 center=(
                     constants.WINDOW_WIDTH // 2,
-                    constants.WINDOW_HEIGHT // 2 + 80, # Adjusted position
+                    constants.WINDOW_HEIGHT // 2 + 80,  # Adjusted position
                 )
             )
             self.screen.blit(instr_surf, instr_rect)
