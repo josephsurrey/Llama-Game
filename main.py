@@ -542,7 +542,11 @@ class Llama(pygame.sprite.Sprite):
             self.is_jumping = False
 
     def jump(self):
-        pass
+        if not self.is_jumping:
+            # Apply upward velocity
+            self.velocity_y = constants.JUMP_SPEED
+            # Set jumping state
+            self.is_jumping = True
 
     def reset(self):
         pass
