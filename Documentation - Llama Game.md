@@ -508,14 +508,23 @@ Passed 4/4 tests
 #### Component Planning
 ![[Scoreboard Class - Llama Game Decomposition#Update Score (`update`)]]
 #### Test Plan
-| Test Case                 | Input / Conditions                                     | Expected Output                                                                 | Test Type  |
-| :------------------------ | :----------------------------------------------------- | :------------------------------------------------------------------------------ | :--------- |
-| Score Increase            | `current_time` > `game_start_time` by >= 1000ms      | `self.score` increases. `_render_text` is called, `self.image` updates.         | Expected   |
-| No Score Change (< 1 sec) | `current_time` - `game_start_time` < 1000ms          | `self.score` remains 0. `_render_text` not called again. `self.image` unchanged. | Expected   |
-| Multiple Second Update    | `current_time` advances by several seconds           | `self.score` reflects the correct number of whole seconds passed.               | Expected   |
-| Time Reset (Conceptual)   | `game_start_time` reset during play (e.g. via reset) | Score calculation reflects time since the *new* `game_start_time`.              | Dependency |
-| Large Score Values        | Game runs for a very long time                       | Score calculation handles large millisecond values correctly.                   | Boundary   |
+#### Test Plan: Scoreboard.update
+
+| Test Case                       | Input / Conditions                                                  | Expected Output / Checks                                                                                                 | Test Type        |
+| :------------------------------ | :------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------- | :--------------- |
+| No Score Change (< 10ms)        | `current_time` - `game_start_time` < 10ms (e.g., 9ms)             | `self.score` remains unchanged (e.g., 0). `font.render` is *not* called again. `self.image` remains unchanged.             | Expected/Mock    |
+| Score Increase (>= 10ms)        | `current_time` - `game_start_time` >= 10ms (e.g., 10ms)             | `self.score` increases by 1. `font.render` is called once, `self.image` updates with the new score text.                  | Expected/Mock    |
+| Boundary Check (Exactly 10ms)   | `current_time` - `game_start_time` == 10ms                          | `self.score` increases to 1 (from 0). `font.render` is called once.                                                      | Boundary/Mock    |
+| Multiple Interval Update        | `current_time` - `game_start_time` = 55ms                           | `self.score` becomes 5 (55 // 10). `font.render` is called once.                                                         | Expected/Mock    |
+| No Score Change (Score Stays)   | Call update twice with same `new_score` (e.g., 55ms then 59ms)      | First call: score becomes 5, `font.render` called. Second call: score remains 5, `font.render` *not* called again.      | State/Mock Check |
+| Large Time Values               | `current_time` - `game_start_time` = 1,234,567ms                    | `self.score` becomes 123456 (1234567 // 10). `font.render` is called.                                                    | Boundary/Mock    |
+| Time Reset (Conceptual)         | `game_start_time` changes between calls                             | Score calculation correctly uses the *new* `game_start_time` passed in the arguments for subsequent calls.                 | Dependency Check |
+| Negative Time Difference        | `current_time` < `game_start_time` (e.g., `current`=0, `start`=10) | `new_score` calculates to -1. `self.score` becomes -1. `font.render` is called (as score changed from 0).              | Robustness/Edge  |
+| Verify Render Arguments         | Score changes (e.g., 0 -> 1)                                        | `font.render` called with `f"Score: {new_score}"`, `True`, `self.color`. `get_rect` called on the result.               | Mock Check       |
 #### Test Results
+##### Test 01
+![[Test Results - scoreboard_update - test_01.html]]
+Passed 9/9 tests
 
 ### Draw Score (`draw`)
 #### Component Planning
