@@ -296,13 +296,17 @@ Passed 11/11 tests
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Save High Scores (`_save_high_scores`)]]
 #### Test Plan
-| Test Case            | Input / Conditions                                     | Expected Output                                                                                            | Test Type      |
-| :------------------- | :----------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- | :------------- |
-| Save Valid List      | `self.high_scores` is `[{"name":"A","score":10}]`      | `high_scores.json` created/overwritten with the correct JSON representation of the list. No errors raised. | Expected       |
-| Save Empty List      | `self.high_scores` is `[]`                             | `high_scores.json` created/overwritten with `[]`. No errors raised.                                        | Expected       |
-| Invalid Data in List | `self.high_scores` contains non-JSON serializable data | `TypeError` during `json.dump`, caught, save fails gracefully. Log message potentially printed. No crash.  | Error Handling |
-#### Test Results
 
+| Test Case            | Input / Conditions                                      | Expected Output                                                                                            | Test Type      |
+| :------------------- | :------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------- | :------------- |
+| Save Valid List      | `self.high_scores` is `[{"name":"A","score":10}]`       | `high_scores.json` created/overwritten with the correct JSON representation of the list. No errors raised. | Expected       |
+| Save Empty List      | `self.high_scores` is `[]`                              | `high_scores.json` created/overwritten with `[]`. No errors raised.                                        | Expected       |
+| Invalid Data in List | `self.high_scores` contains non-JSON serializable data  | `TypeError` during `json.dump`, caught, save fails gracefully. Print message potentially called. No crash. | Error Handling |
+| File Write IO Error  | `open()` raises `IOError` when opening file for writing | `IOError` caught, save fails gracefully. Print message potentially called. No crash.                       | Error Handling |
+#### Test Results
+##### Test 01
+![[Test Results - game__save_high_scores - test_01.html]]
+Passed 4/4 tests
 ### Check Score Eligibility (`_check_score_eligible`)
 #### Component Planning
 ![[Game Class - Llama Game Decomposition#Check Score Eligibility (`_check_score_eligible`)]]
