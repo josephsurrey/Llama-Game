@@ -580,3 +580,24 @@ I set the window size to the exact dimensions of the image. This resulted in the
 ###### Method 2:
 I calculated the aspect ratio of the image, and then scaled it up so that the aspect ration remained the same but the height matched the window height (defined in constants). This means that more complicated backgrounds and different sized windows can be used while keeping the size and scale accurate and aesthetic. I chose to use this option in my outcome.
 ![[test03-01.png]]The image now scales correctly and the llama stands on the ground.
+##### Test 04
+The next issue is with restarting the game. After a restart, the score doesn't reset and the llama changes position.
+
+> [!note]
+> Image taken directly after restart (no obstacles have spawned yet)
+> ![[test04-01.png]]
+
+This is due to using the wrong variable name when resetting the score. I used:
+```
+# Reset the start time for the new game  
+self.start_time_ticks = pygame.time.get_ticks()
+```
+When I should have been using:
+```
+# Reset the start time for the new game  
+self.start_time = pygame.time.get_ticks()
+```
+This fixed the issue of the incorrect score.
+
+The issue with the llama changing position wasn't actually because after resetting it was in the wrong place, it was because the llama was spawning in the wrong place when the program is run. To fix this, I run `llama.reset()` after creating the llama, which puts it into the right position.
+![[test04-02.png]]

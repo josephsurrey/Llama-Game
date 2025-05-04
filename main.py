@@ -43,6 +43,7 @@ class Game:
 
         # Create player sprite (Llama)
         self.llama = Llama()
+        self.llama.reset()
 
         # Add player sprite to all_sprites group
         self.all_sprites.add(self.llama)
@@ -398,7 +399,7 @@ class Game:
         self.score_eligible_for_save = False
 
         # Reset the start time for the new game
-        self.start_time_ticks = pygame.time.get_ticks()
+        self.start_time = pygame.time.get_ticks()
 
         # Reset the scoreboard
         self.scoreboard.reset()
@@ -409,8 +410,8 @@ class Game:
         self.all_sprites.empty()
         self.all_sprites.add(self.llama)
 
-        # Put the player back in the starting position with reset physics.
-        self.llama.reset()  # Assumes llama object exists
+        # Put the player back in the starting position
+        self.llama.reset()
 
         # Reset name input variables
         self.player_name = ""
@@ -597,10 +598,6 @@ class Llama(pygame.sprite.Sprite):
 
     def reset(self):
         # Reset position using the stored initial position
-        self.initial_pos = (
-            constants.PLAYER_HORIZONTAL_POSITION,
-            constants.GROUND_Y - self.rect.height,
-        )
         self.rect.topleft = self.initial_pos
         # Reset physics variables
         self.velocity_y = 0
