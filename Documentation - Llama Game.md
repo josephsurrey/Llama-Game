@@ -545,8 +545,13 @@ Passed 2/2 tests
 #### Component Planning
 ![[Scoreboard Class - Llama Game Decomposition#Reset Score (`reset`)]]
 #### Test Plan
-| Test Case          | Input / Conditions            | Expected Output                                                                 | Test Type |
-| :----------------- | :---------------------------- | :------------------------------------------------------------------------------ | :-------- |
-| Reset Score to Zero| Called after score increased  | `self.score` becomes 0. `_render_text` called. `self.image` shows "Score: 0". | Expected  |
-| Reset When Already Zero | Called when `self.score` is 0 | `self.score` remains 0. `_render_text` called. `self.image` shows "Score: 0". | Expected  |
+
+| Test Case                     | Input / Conditions            | Expected Output / Checks                                                                                                | Test Type   |
+| :---------------------------- | :---------------------------- | :---------------------------------------------------------------------------------------------------------------------- | :---------- |
+| Reset Score to Zero           | Called after score increased  | `self.score` becomes 0. `self.image` surface is updated to show "Score: 0". `self.rect` position is updated correctly. | State Check |
+| Reset When Already Zero       | Called when `self.score` is 0 | `self.score` remains 0. `self.image` surface is updated to show "Score: 0". `self.rect` position is updated correctly. | State Check |
+| Verify Font Render Call Args  | Called (either case above)    | `self.font.render` is called with `f"Score: 0"`, `True`, and `self.color`. `self.image.get_rect` called with `topleft`.  | Mock Check  |
 #### Test Results
+##### Test 01
+![[Test Results - scoreboard_reset - test_01.html]]
+Passed 3/3 tests
